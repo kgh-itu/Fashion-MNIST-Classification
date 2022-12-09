@@ -1,2 +1,0 @@
-Model last trained 2022-12-09 21:59:19.113415
-with max_depth=30, min_samples_split=100
