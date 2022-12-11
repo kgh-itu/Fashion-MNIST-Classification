@@ -44,20 +44,18 @@ class DecisionTree:
 
     def _predict(self, x):
         cur_node = self.root
-        while cur_node.depth < cur_node.max_depth:
+        while cur_node.split_allowed:
             best_feature = cur_node.best_feature
             best_value = cur_node.best_cutoff
-            if cur_node.n < cur_node.min_samples_split:
-                break
 
-            if best_value is None or best_feature is None:
+            if not cur_node.split_exists:
                 break
 
             if x[best_feature] < best_value:
-                if cur_node.left is not None:
+                if cur_node.left:
                     cur_node = cur_node.left
             else:
-                if cur_node.right is not None:
+                if cur_node.right:
                     cur_node = cur_node.right
 
         return mode(cur_node.Y)

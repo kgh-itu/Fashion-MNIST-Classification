@@ -45,7 +45,7 @@ def get_node_gini(y: np.ndarray) -> float:
     return 1 - probs_squared.sum()
 
 
-def get_possible_cutoffs(x: np.ndarray) -> np.ndarray:
+def get_possible_cutoffs(x: np.ndarray):
     """
         Calculates the gini impurity of a node.
 
