@@ -24,7 +24,7 @@ class Node:
 
         self.current_gini = get_node_gini(self.Y)
 
-        self.num_features = self.X.shape[1]  # labeled
+        self.num_features = self.X.shape[1]
         self.size = len(self.Y)
 
         self.best_feature = None
