@@ -22,7 +22,7 @@ class Node:
         self.left = None
         self.right = None
 
-        self.gini = get_node_gini(self.Y)
+        self.current_gini = get_node_gini(self.Y)
 
         self.num_features = self.X.shape[1]  # labeled
         self.size = len(self.Y)
@@ -72,18 +72,18 @@ class Node:
 
     def get_best_split(self):
         features = list(range(self.num_features))
-        random.shuffle(features)
+        random.shuffle(features) # important for randomness
 
         for feature in features:
             curr_feature = self.X[:, feature]
             possible_cutoffs = get_possible_cutoffs(curr_feature)
-            random.shuffle(possible_cutoffs)
+            random.shuffle(possible_cutoffs)  # important for randomness
             for cutoff in possible_cutoffs:
                 left_Y = self.Y[np.where(curr_feature <= cutoff)]
                 right_Y = self.Y[np.where(curr_feature > cutoff)]
 
                 gini_of_split = calculate_gini(left_Y, right_Y)
-                gini_of_current_node = self.gini
+                gini_of_current_node = self.current_gini
                 gini_gain = gini_of_current_node - gini_of_split
 
                 if gini_gain > self.best_gain:
