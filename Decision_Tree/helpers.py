@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def calculate_gini(left_y, right_y) -> float:
+def calculate_gini(left_y, right_y):
     """
     Calculates the total gini impurity of a split.
 
@@ -26,7 +26,7 @@ def calculate_gini(left_y, right_y) -> float:
     return left_gini * left_weight + right_gini * right_weight
 
 
-def get_node_gini(y: np.ndarray) -> float:
+def get_node_gini(y):
     """
         Calculates the gini impurity of a node.
 
@@ -45,14 +45,14 @@ def get_node_gini(y: np.ndarray) -> float:
     return 1 - probs_squared.sum()
 
 
-def get_possible_cutoffs(x: np.ndarray):
+def get_possible_cutoffs(x):
     """
         Calculates the gini impurity of a node.
 
         Parameters
         ----------
         x : np.ndarray
-            The current feature
+            The current feature array
 
         Returns
         -------
@@ -64,7 +64,19 @@ def get_possible_cutoffs(x: np.ndarray):
     return moving_avg
 
 
-def _moving_average(x: np.ndarray) -> np.ndarray:
+def _moving_average(x: np.ndarray):
+    """
+        Calculates moving average of an array
+
+        Parameters
+        ----------
+        x : np.ndarray
+            The current feature array
+
+        Returns
+        -------
+        ndarray[float]
+            moving average of x with a window of size 2."""
     window = 2
     return np.convolve(x, np.ones(window), 'valid') / window
 
