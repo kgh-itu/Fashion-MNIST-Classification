@@ -42,42 +42,39 @@ class Node:
     def build_tree(self):
         self.best_feature, self.best_cutoff = self.get_best_split()
 
-        if self.best_feature is not None:
+        if self.split_exists and self.split_allowed:
+            left_mask = np.where(self.X[:, self.best_feature] <= self.best_cutoff)
+            right_mask = np.where(self.X[:, self.best_feature] > self.best_cutoff)
 
-            if self.split_allowed:
+            if len(left_mask) == 0 or len(right_mask) == 0:
+                return None
 
-                left_ = np.where(self.X[:, self.best_feature] <= self.best_cutoff)
-                right_ = np.where(self.X[:, self.best_feature] > self.best_cutoff)
+            left_X, left_Y = self.X[left_mask], self.Y[left_mask]
+            right_X, right_Y = self.X[right_mask], self.Y[right_mask]
 
-                left_X, left_Y = self.X[left_], self.Y[left_]
-                right_X, right_Y = self.X[right_], self.Y[right_]
+            left = Node(left_X, left_Y,
+                        depth=self.depth + 1,
+                        max_depth=self.max_depth,
+                        min_samples_split=self.min_samples_split)
 
-                if len(left_Y) == 0 or len(right_Y) == 0:
-                    return
+            self.left = left
+            self.left.build_tree()
 
-                left = Node(left_X, left_Y,
-                            depth=self.depth + 1,
-                            max_depth=self.max_depth,
-                            min_samples_split=self.min_samples_split)
-
-                self.left = left
-                self.left.build_tree()
-
-                right = Node(right_X, right_Y,
-                             depth=self.depth + 1,
-                             max_depth=self.max_depth,
-                             min_samples_split=self.min_samples_split)
-                self.right = right
-                self.right.build_tree()
+            right = Node(right_X, right_Y,
+                         depth=self.depth + 1,
+                         max_depth=self.max_depth,
+                         min_samples_split=self.min_samples_split)
+            self.right = right
+            self.right.build_tree()
 
     def get_best_split(self):
         features = list(range(self.num_features))
-        random.shuffle(features) # important for randomness
+        random.shuffle(features)  # important for randomness of choosing best split
 
         for feature in features:
             curr_feature = self.X[:, feature]
             possible_cutoffs = get_possible_cutoffs(curr_feature)
-            random.shuffle(possible_cutoffs)  # important for randomness
+            random.shuffle(possible_cutoffs)  # important for randomness of choosing best split
             for cutoff in possible_cutoffs:
                 left_Y = self.Y[np.where(curr_feature <= cutoff)]
                 right_Y = self.Y[np.where(curr_feature > cutoff)]

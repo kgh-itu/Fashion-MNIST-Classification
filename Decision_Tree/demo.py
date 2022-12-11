@@ -38,4 +38,3 @@ if __name__ == "__main__":
         print_summary(our_dtree, X_test, y_test)
         print("-----------OUR DTREE-----------")
         print()
-
