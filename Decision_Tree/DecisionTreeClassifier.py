@@ -1,11 +1,10 @@
-import numpy as np
 from statistics import mode
 from Decision_Tree.Node import Node
 
 
 class DecisionTree:
     def __init__(self,
-                 max_depth=np.inf,
+                 max_depth=1.e10,
                  min_samples_split=2):
 
         self.X = None

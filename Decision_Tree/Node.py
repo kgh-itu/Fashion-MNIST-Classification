@@ -1,5 +1,5 @@
-import numpy as np
-import random
+from numpy import where
+from random import shuffle
 
 from Decision_Tree.helpers import (calculate_gini,
                                    get_node_gini,
@@ -9,7 +9,7 @@ from Decision_Tree.helpers import (calculate_gini,
 class Node:
     def __init__(self, X, Y,
                  depth=None,
-                 max_depth=np.inf,
+                 max_depth=1.e10,
                  min_samples_split=2):
 
         self.X = X
@@ -43,8 +43,8 @@ class Node:
         self.best_feature, self.best_cutoff = self.get_best_split()
 
         if self.split_exists and self.split_allowed:
-            left_mask = np.where(self.X[:, self.best_feature] <= self.best_cutoff)
-            right_mask = np.where(self.X[:, self.best_feature] > self.best_cutoff)
+            left_mask = where(self.X[:, self.best_feature] <= self.best_cutoff)
+            right_mask = where(self.X[:, self.best_feature] > self.best_cutoff)
 
             if len(left_mask) == 0 or len(right_mask) == 0:
                 return None
@@ -69,15 +69,15 @@ class Node:
 
     def get_best_split(self):
         features = list(range(self.num_features))
-        random.shuffle(features)  # important for randomness of choosing best split
+        shuffle(features)  # important for randomness of choosing best split
 
         for feature in features:
             curr_feature = self.X[:, feature]
             possible_cutoffs = get_possible_cutoffs(curr_feature)
-            random.shuffle(possible_cutoffs)  # important for randomness of choosing best split
+            shuffle(possible_cutoffs)  # important for randomness of choosing best split
             for cutoff in possible_cutoffs:
-                left_Y = self.Y[np.where(curr_feature <= cutoff)]
-                right_Y = self.Y[np.where(curr_feature > cutoff)]
+                left_Y = self.Y[where(curr_feature <= cutoff)]
+                right_Y = self.Y[where(curr_feature > cutoff)]
 
                 gini_of_split = calculate_gini(left_Y, right_Y)
                 gini_of_current_node = self.current_gini
