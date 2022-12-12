@@ -1,4 +1,8 @@
 # Demo of performance of sklearn DecisionTreeClassifier vs our own implementation
+# Using simple datasets with fast training phase
+# This can be used to validate that our implementation is close or almost exactly
+# the same as sklearn
+
 from sklearn.datasets import (load_breast_cancer,
                               load_iris,
                               load_digits)
