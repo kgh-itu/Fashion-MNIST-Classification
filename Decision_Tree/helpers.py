@@ -47,7 +47,11 @@ def get_node_gini(y):
 
 def get_possible_cutoffs(x):
     """
-        Calculates the gini impurity of a node.
+        Gets all possible cutoffs for a feature with following steps:
+        1) Get unique values for feature
+        2) Sort unique values
+        3) Calculate moving average with a window of 2 like such:
+            _moving_average([1, 2, 3, 4]) -> [1.5, 2.5, 3.5]
 
         Parameters
         ----------
@@ -57,14 +61,14 @@ def get_possible_cutoffs(x):
         Returns
         -------
         ndarray[float]
-            All possible cutoffs for x."""
+            cutoffs for x."""
 
     x = np.sort(np.unique(x))
     moving_avg = _moving_average(x)
     return moving_avg
 
 
-def _moving_average(x: np.ndarray):
+def _moving_average(x: np.ndarray, window=2):
     """
         Calculates moving average of an array
 
@@ -76,7 +80,6 @@ def _moving_average(x: np.ndarray):
         Returns
         -------
         ndarray[float]
-            moving average of x with a window of size 2."""
-    window = 2
-    return np.convolve(x, np.ones(window), 'valid') / window
+            moving average of x."""
 
+    return np.convolve(x, np.ones(window), 'valid') / window
