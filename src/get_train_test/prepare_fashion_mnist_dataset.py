@@ -10,7 +10,7 @@ class FashionMnistData:
         self.normalize = normalize # dividing the pixels by 255
         self.original_data_set = original_data_set
 
-        self.x_train, self.y_train, self.x_test, self.y_test = None, None, None, None
+        self.X_train, self.y_train, self.X_test, self.y_test = None, None, None, None
 
         if self.get_train:
             self.train = np.load(f"{path_to_folder}/fashion_train.npy")
@@ -29,6 +29,9 @@ class FashionMnistData:
         X_train, y_train, X_test, y_test = self.X_train, self.y_train, self.X_test, self.y_test
 
         if self.normalize:
-            X_train, X_test = X_train / 255, X_test / 255
-
+            if self.get_test:
+                X_train, X_test = X_train / 255, X_test / 255
+            else:
+                X_train = X_train / 255
+                
         return X_train, y_train, X_test, y_test
