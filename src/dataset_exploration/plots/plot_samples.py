@@ -18,7 +18,7 @@ def sample_from_each_class():
     data = FashionMnistData()
     X_train, y_train, X_test, y_test = data.get()
     samples = [extract_sample_in_class(X_train, y_train, i) for i in range(5)]
-    title = lambda i: f"class {i} "
+    title = lambda i: f"{i}"
     fig = plt.figure(figsize=(15, 6))
     plt.subplots_adjust(top=1, bottom=0, right=1, left=0,
                         hspace=0, wspace=0.01)

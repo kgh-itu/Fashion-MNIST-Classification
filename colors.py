@@ -1,5 +1,5 @@
 import seaborn
-# colors to use for each class througout the report
+# colors to use for each class throughout the report
 pal = seaborn.color_palette("Paired")
 class_0 = t_shirt_color = pal[0]
 class_1 = pants_color = pal[1]
