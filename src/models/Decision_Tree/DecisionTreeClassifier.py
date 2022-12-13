@@ -1,5 +1,5 @@
 from statistics import mode
-from Decision_Tree.Node import Node
+from src.models.Decision_Tree.Node import Node
 
 
 class DecisionTree:

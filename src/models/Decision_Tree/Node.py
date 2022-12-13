@@ -1,9 +1,9 @@
 from numpy import where
 from random import shuffle
 
-from Decision_Tree.helpers import (calculate_gini,
-                                   get_node_gini,
-                                   get_possible_cutoffs)
+from src.models.Decision_Tree.helpers import (calculate_gini,
+                                              get_node_gini,
+                                              get_possible_cutoffs)
 
 
 class Node:
