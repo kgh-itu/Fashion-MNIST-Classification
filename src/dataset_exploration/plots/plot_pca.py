@@ -11,28 +11,53 @@ from colors import *
 color_palette = seaborn.color_palette("Paired")
 
 
-def plot_pc1_pca2(fig_name="pca_plot"):
-    X_pca, y_train = get_n_pca(n=2, normalize=True)
+def plot_pca(fig_name):
+    X_pca, y_train = get_n_pca(normalize=True)
     pca1 = X_pca[:, 0]
     pca2 = X_pca[:, 1]
-    fig, ax = plt.subplots(figsize=(10, 6), tight_layout=True)
-    seaborn.set_style("darkgrid")
-    seaborn.set(font="Futura")
+    pca3 = X_pca[:, 2]
     y_train = _format_y_train(y_train)
+
+    PALETTE = {"T-shirt": t_shirt_color, "Pants": pants_color,
+               "Sweatshirt": sweatshirt_color, "Dress": dress_color,
+               "Shirt": shirt_color}
+    HUE_ORDER = ["T-shirt", "Pants", "Sweatshirt", "Dress", "Shirt"]
+    ALPHA = 0.5
+    LABEL_SIZE = 25
+    LEGEND_SIZE = 19
+
+    fig, ax = plt.subplots(ncols=2, figsize=(22, 8), tight_layout=True)
+    seaborn.set_style("dark")
+    seaborn.set(font="Futura")
+
     seaborn.scatterplot(x=pca1, y=pca2,
-                        ax=ax, alpha=0.9, hue=y_train,
-                        palette={"T-shirt": t_shirt_color, "Pants": pants_color,
-                                 "Sweatshirt": sweatshirt_color, "Dress": dress_color,
-                                 "Shirt": shirt_color},
-                        hue_order=["T-shirt", "Pants", "Sweatshirt", "Dress", "Shirt"],
+                        ax=ax[0], alpha=ALPHA, hue=y_train,
+                        palette=PALETTE,
+                        hue_order=HUE_ORDER,
+                        legend=False)
+    seaborn.scatterplot(x=pca1, y=pca3,
+                        ax=ax[1], alpha=ALPHA, hue=y_train,
+                        palette=PALETTE,
+                        hue_order=HUE_ORDER,
                         legend=True)
 
-    plt.legend(loc="upper right", fancybox=False)
+    ax[1].legend(loc="upper right", fancybox=True,
+                 fontsize=LEGEND_SIZE, shadow=True)
 
-    plt.xlabel('PCA 1')
-    plt.ylabel('PCA 2')
+    ax[0].set_xlabel(f'PCA 1', fontsize=LABEL_SIZE)
+    ax[0].set_ylabel(f'PCA 2', fontsize=LABEL_SIZE)
+    ax[1].set_xlabel(f'PCA 1', fontsize=LABEL_SIZE)
+    ax[1].set_ylabel(f'PCA 3', fontsize=LABEL_SIZE)
+
+    for ax_ in ax:
+        ax_.set_xticklabels([])
+        ax_.set_yticklabels([])
+
     plt.show()
+
     fig.savefig(f"reports/figures_for_report/{fig_name}")
+
+    return fig
 
 
 def _format_y_train(y_train):
@@ -42,9 +67,5 @@ def _format_y_train(y_train):
     return y_train
 
 
-def _get_data_for_class(data, cls):
-    return np.where(data == cls)
-
-
 if __name__ == "__main__":
-    plot_pc1_pca2()
+    plot_pca("PCA")
