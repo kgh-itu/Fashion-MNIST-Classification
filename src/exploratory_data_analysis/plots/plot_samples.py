@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-from src.get_train_test.prepare_fashion_mnist_dataset import FashionMnistData
+from code.get_train_test.prepare_fashion_mnist_dataset import FashionMnistData
 
 random.seed(69)
 

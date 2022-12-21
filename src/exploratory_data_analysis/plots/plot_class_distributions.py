@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.get_train_test.prepare_fashion_mnist_dataset import FashionMnistData
-from colors import *
+from code.get_train_test.prepare_fashion_mnist_dataset import FashionMnistData
+from code.colors import *
 
 
 def plot_class_distribution():

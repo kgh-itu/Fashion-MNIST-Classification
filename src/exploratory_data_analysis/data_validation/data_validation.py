@@ -1,6 +1,6 @@
 import pandas as pd
 
-from src.get_train_test.prepare_fashion_mnist_dataset import FashionMnistData
+from src.get_train_test_split import FashionMnistData
 
 
 # This script answers the question: Does our data-set need cleaning?
@@ -10,8 +10,8 @@ from src.get_train_test.prepare_fashion_mnist_dataset import FashionMnistData
 # of the data-set (missing values, correct ranges of values)
 
 def main():
-    data = FashionMnistData(original_data_set=True)
-    train, test = data.get()
+    data = FashionMnistData()
+    train, test = data.get_original_datasets()
     print(f"Does train have missing values? {_check_missing_pixels(train)}")
     print(f"Does test have missing values? {_check_missing_pixels(test)}")
     print(f"Does train have correct pixels values? {_are_pixel_values_between_0_255(train)}")

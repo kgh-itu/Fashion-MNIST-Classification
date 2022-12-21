@@ -1,14 +1,10 @@
-import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn
-import numpy as np
 
-from src.dataset_exploration.pca.pca import get_n_pca
-from src.map_cls_to_clothing import map_cls_to_clothing
-from colors import *
-
-color_palette = seaborn.color_palette("Paired")
+from src.exploratory_data_analysis.pca.pca import get_n_pca
+from src.class_clothing_map import map_cls_to_clothing
+from src.colors import *
 
 
 def plot_pca(fig_name):

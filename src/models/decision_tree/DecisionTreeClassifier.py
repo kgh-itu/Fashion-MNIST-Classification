@@ -1,5 +1,5 @@
 from statistics import mode
-from src.models.Decision_Tree.Node import Node
+from src.models.decision_tree.node import Node
 
 
 class DecisionTree:
@@ -33,21 +33,13 @@ class DecisionTree:
     def predict(self, X):
         return [self._predict(x) for x in X]
 
-    def get_depth(self):
-        assert self.is_fitted
-        return self.root.get_depth() - 1
-
-    def get_n_leaves(self):
-        assert self.is_fitted
-        return self.root.get_n_leaves()
-
     def _predict(self, x):
         cur_node = self.root
-        while cur_node.split_allowed:
+        while cur_node.split_allowed():
             best_feature = cur_node.best_feature
             best_value = cur_node.best_cutoff
 
-            if not cur_node.split_exists:
+            if not cur_node.split_exists():
                 break
 
             if x[best_feature] < best_value:
@@ -58,3 +50,24 @@ class DecisionTree:
                     cur_node = cur_node.right
 
         return mode(cur_node.Y)
+
+    def get_depth(self):
+        return self.count_depth(self.root) - 1
+
+    def get_n_leaves(self):
+        return self.count_leaves(self.root)
+
+    def count_leaves(self, root):
+        if root is None:
+            return 0
+        if root.left is None and root.right is None:
+            return 1
+        return self.count_leaves(root.left) + self.count_leaves(root.right)
+
+    def count_depth(self, root):
+        current_depth = 0
+        if root.left:
+            current_depth = max(current_depth, self.count_depth(root.left))
+        if root.right:
+            current_depth = max(current_depth, self.count_depth(root.right))
+        return current_depth + 1
