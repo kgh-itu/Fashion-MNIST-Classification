@@ -1,43 +1,80 @@
-# Demo of performance of sklearn DecisionTreeClassifier vs our own implementation
-# Using simple datasets with fast training phase
-# This can be used to validate that our implementation is close or almost exactly
-# the same as sklearn
-
-from sklearn.datasets import (load_breast_cancer,
-                              load_iris,
-                              load_digits)
-
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
+
+import matplotlib.pyplot as plt
+import seaborn
 from sklearn.metrics import accuracy_score
+
 from src.models.decision_tree.decision_tree_classifier import DecisionTree
 
 
-def print_summary(classifier, x_test_, y_test_):
-    print("Accuracy Score", accuracy_score(classifier.predict(x_test_), y_test_), "")
-    print("Number of leaf nodes", classifier.get_n_leaves())
-    print("Depth of tree", classifier.get_depth())
+def plot_accuracy_comparison(X,
+                             y,
+                             fitted_sk: list[DecisionTreeClassifier],
+                             fitted_our: list[DecisionTree]):
+    our_accuracy = [accuracy_score(m.predict(X), y) for m in fitted_our]
+    sk_accuracy = [accuracy_score(m.predict(X), y) for m in fitted_sk]
+
+    fig, ax = plt.subplots(ncols=2, figsize=(10, 5), tight_layout=True)
+    seaborn.set_style("dark")
+    seaborn.set(font="Futura")
+    ax[0].set_ylabel("Count")
+    ax[0].hist(our_accuracy)
+    ax[0].set_title("Our implementation Accuracy")
+    ax[1].set_ylabel("Count")
+    ax[1].hist(sk_accuracy)
+    ax[1].set_title("Sklearn implementation Accuracy")
+
+    plt.savefig(f"reports/figures_for_report/our_vs_sklearn_accuracy")
+
+
+def plot_depth_comparison(fitted_sk: list[DecisionTreeClassifier],
+                          fitted_our: list[DecisionTree]):
+    our_depth = [m.get_depth() for m in fitted_our]
+    sklearn_depth = [m.get_depth() for m in fitted_sk]
+
+    fig, ax = plt.subplots(ncols=2, figsize=(10, 5), tight_layout=True)
+    seaborn.set_style("dark")
+    seaborn.set(font="Futura")
+    ax[0].set_ylabel("Count")
+    ax[0].hist(our_depth)
+    ax[0].set_title("Our implementation Tree Depth")
+    ax[1].set_ylabel("Count")
+    ax[1].hist(sklearn_depth)
+    ax[1].set_title("Sklearn implementation Tree Depth")
+
+    plt.savefig(f"reports/figures_for_report/our_vs_sklearn_depth")
+
+
+def plot_leaf_count_comparison(fitted_sk: list[DecisionTreeClassifier],
+                               fitted_our: list[DecisionTree]):
+    our_leaves = [m.get_n_leaves() for m in fitted_our]
+    sklearn_leaves = [m.get_n_leaves() for m in fitted_sk]
+
+    fig, ax = plt.subplots(ncols=2, figsize=(10, 5), tight_layout=True)
+    seaborn.set_style("dark")
+    seaborn.set(font="Futura")
+    ax[0].set_ylabel("Count")
+    ax[0].hist(our_leaves)
+    ax[0].set_title("Our implementation Tree Leaves")
+    ax[1].set_ylabel("Count")
+    ax[1].hist(sklearn_leaves)
+    ax[1].set_title("Sklearn implementation Tree Leaves")
+
+    plt.savefig(f"reports/figures_for_report/our_vs_sklearn_leaves")
 
 
 if __name__ == "__main__":
-    data_sets = [load_digits(), load_breast_cancer(), load_iris()]
-    data_sets_names = ["DIGITS (load_digits())",
-                       "BREAST CANCER (load_breast_cancer())",
-                       "IRIS (load_iris())"]
+    data = load_breast_cancer()
+    X, y = data.data, data.target
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-    for i, data_set in enumerate(data_sets):
-        print("DATASET", data_sets_names[i])
-        X, y = data_sets[i].data, data_sets[i].target
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        print("-----------SKLEARN DTREE-----------")
-        sk_dtree = DecisionTreeClassifier().fit(X_train, y_train)
-        print_summary(sk_dtree, X_test, y_test)
-        print("-----------SKLEARN DTREE-----------")
-        print()
-        print("DATASET", data_sets_names[i])
-        print("-----------OUR DTREE-----------")
-        our_dtree = DecisionTree()
-        our_dtree.fit(X_train, y_train)
-        print_summary(our_dtree, X_test, y_test)
-        print("-----------OUR DTREE-----------")
-        print()
+    fitted_sk = [DecisionTreeClassifier().fit(X_train, y_train) for _ in range(100)]
+    fitted_our = [DecisionTree().fit(X_train, y_train) for _ in range(100)]
+
+    plot_accuracy_comparison(X_test, y_test, fitted_sk, fitted_our)
+    plot_depth_comparison(fitted_sk, fitted_our)
+    plot_leaf_count_comparison(fitted_sk, fitted_our)
+    plt.show()
+

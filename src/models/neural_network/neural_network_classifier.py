@@ -1,7 +1,7 @@
 from sklearn.utils import shuffle  # I assume we can use this from sk-learn
 import warnings
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 from src.models.neural_network.layer import DenseLayer
 from src.get_train_test_split.fashion_mnist_data import FashionMnistData
@@ -9,6 +9,8 @@ from src.get_train_test_split.fashion_mnist_data import FashionMnistData
 from src.models.neural_network.loss import (delta_cross_entropy,
                                             get_accuracy,
                                             calculate_loss)
+
+import seaborn
 
 
 class NeuralNetworkClassifier:
@@ -30,32 +32,40 @@ class NeuralNetworkClassifier:
         self.cache: list[dict] = []
         self.derivatives: list[dict] = []
 
-    def fit(self, X_train, y_train, batch_size):
+        self.train_loss = []
+        self.train_accuracy = []
+
+        self.validation_loss = []
+        self.validation_accuracy = []
+
+    def fit(self, X_train, y_train, batch_size, X_validation=False, y_validation=False):
         self._configure_neural_network(X_train)
         self._init_trainable_params()
 
         num_batches = int(np.ceil(X_train.shape[0] / batch_size))
 
         for i in range(self.epochs):
-            # Shuffle the training data at the beginning of each epoch
             X_train, y_train = shuffle(X_train, y_train)
-            # Split the training data into mini-batches
             X_batches = np.array_split(X_train, num_batches)
             y_batches = np.array_split(y_train, num_batches)
-            # Loop over the mini-batches
-            for X_batch, y_batch in zip(X_batches, y_batches):
+            for X_batch, y_batch in zip(X_batches, y_batches):  # mini batch gradient descent
                 y_pred = self._forward(X_batch)
                 loss = delta_cross_entropy(predicted=y_pred, y_true=y_batch)
                 self._backward(loss)
                 self._update_trainable_params()
 
-            # Calculate and print the loss and accuracy for the entire training set after each epoch
             y_pred = self._forward(X_train)
-            prediction_loss = calculate_loss(predicted=y_pred, y_true=y_train)
-            prediction_accuracy = get_accuracy(predicted=y_pred, y_true=y_train)
+            acc, loss = self._evaluate(y_pred, y_train)
 
             if i % 20 == 0:
-                print(f"EPOCH {i}: TRAIN ACCURACY {prediction_accuracy} TRAIN LOSS {prediction_loss}")
+                print(f"EPOCH {i}: TRAIN ACCURACY {acc} TRAIN LOSS {loss}")
+
+            if isinstance(X_validation, np.ndarray):
+                y_pred = self._forward(X_validation)
+                acc, loss = self._evaluate(y_pred, y_validation, validation=True)
+
+                if i % 20 == 0:
+                    print(f"EPOCH {i}: VALIDATION ACCURACY {acc} VALIDATION LOSS {loss}")
 
     def predict(self, X):
         y_pred = self._forward(X)
@@ -129,15 +139,29 @@ class NeuralNetworkClassifier:
     def add(self, layer):
         self.layers.append(layer)
 
+    def _evaluate(self, y_pred, y_true, validation=False):
+        prediction_loss = calculate_loss(predicted=y_pred, y_true=y_true)
+        prediction_accuracy = get_accuracy(predicted=y_pred, y_true=y_true)
+        if validation:
+            self.validation_loss.append(prediction_loss)
+            self.validation_accuracy.append(prediction_accuracy)
+        else:
+            self.train_loss.append(prediction_loss)
+            self.train_accuracy.append(prediction_accuracy)
 
-if __name__ == "__main__":
-    data_ = FashionMnistData(r"C:\Users\Bjarne\Desktop\Fashion-MNIST-Classification\data")
-    X_train_, y_train_, X_test_, y_test_ = data_.get_train_test_split(normalize=True)
-    model = NeuralNetworkClassifier(layers=[],
-                                    learning_rate=0.1,
-                                    epochs=20)
+        return prediction_accuracy, prediction_loss
 
-    model.add(DenseLayer(120, "relu"))
-    model.add(DenseLayer(60, "relu"))
-    model.add(DenseLayer(5, "softmax"))
-    model.fit(X_train_, y_train_, batch_size=10)
+    def plot_performance(self):
+        epochs = [i for i in range(self.epochs)]
+        seaborn.set_style("darkgrid")
+        seaborn.set(font="Futura")
+        fig, ax = plt.subplots(ncols=2, nrows=2, tight_layout=True, figsize=(12, 8))
+        ax[0, 0].plot(epochs, self.train_accuracy)
+        ax[0, 1].plot(epochs, self.train_loss)
+        ax[1, 0].plot(epochs, self.validation_accuracy)
+        ax[1, 1].plot(epochs, self.validation_loss)
+        ax[0, 0].set_title("Train Accuracy")
+        ax[0, 1].set_title("Train Loss")
+        ax[1, 0].set_title("Validation Accuracy")
+        ax[1, 1].set_title("Validation Loss")
+        fig.savefig(f"reports/figures_for_report/Neural_Network_Train_Validation")

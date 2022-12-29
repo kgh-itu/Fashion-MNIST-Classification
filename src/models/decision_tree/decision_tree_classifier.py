@@ -30,6 +30,8 @@ class DecisionTree:
 
         self.is_fitted = True
 
+        return self
+
     def predict(self, X):
         return [self._predict(x) for x in X]
 

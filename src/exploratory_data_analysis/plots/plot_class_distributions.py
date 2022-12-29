@@ -1,13 +1,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn
 
-from code.get_train_test.prepare_fashion_mnist_dataset import FashionMnistData
-from code.colors import *
+from src.get_train_test_split.fashion_mnist_data import FashionMnistData
+from src.colors import *
 
 
 def plot_class_distribution():
     data = FashionMnistData()
-    _, y_train, _, y_test = data.get()
+    _, y_train, _, y_test = data.get_train_test_split()
     x = ["T-shirt", "Pants", "Sweatshirt", "Dress", "Shirt"]
     train_count = np.bincount(y_train)
     test_count = np.bincount(y_test)

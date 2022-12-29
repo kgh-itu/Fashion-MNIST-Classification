@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-from code.get_train_test.prepare_fashion_mnist_dataset import FashionMnistData
+from src.get_train_test_split.fashion_mnist_data import FashionMnistData
 
 random.seed(69)
 
@@ -16,7 +16,7 @@ def extract_sample_in_class(X, y, cls):
 
 def sample_from_each_class():
     data = FashionMnistData()
-    X_train, y_train, X_test, y_test = data.get()
+    X_train, y_train, X_test, y_test = data.get_train_test_split()
     samples = [extract_sample_in_class(X_train, y_train, i) for i in range(5)]
     title = lambda i: f"{i}"
     fig = plt.figure(figsize=(15, 6))

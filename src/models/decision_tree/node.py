@@ -11,7 +11,8 @@ class Node:
     def __init__(self, X, Y,
                  depth=None,
                  max_depth=1.e10,
-                 min_samples_split=2):
+                 min_samples_split=2
+                 ):
 
         self.X = X
         self.Y = Y
@@ -54,6 +55,7 @@ class Node:
                          depth=self.depth + 1,
                          max_depth=self.max_depth,
                          min_samples_split=self.min_samples_split)
+
             self.right = right
             self.right.build_tree()
 
