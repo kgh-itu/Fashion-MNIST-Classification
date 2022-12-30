@@ -4,7 +4,7 @@ from sklearn.pipeline import Pipeline
 import numpy as np
 
 
-from src.get_train_test_split import FashionMnistData
+from src.get_train_test_split.fashion_mnist_data import FashionMnistData
 
 
 def get_n_pca(normalize=True):

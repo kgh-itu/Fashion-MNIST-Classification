@@ -7,7 +7,7 @@ from src.class_clothing_map import map_cls_to_clothing
 from src.colors import *
 
 
-def plot_pca(fig_name):
+def plot_pca():
     X_pca, y_train = get_n_pca(normalize=True)
     pca1 = X_pca[:, 0]
     pca2 = X_pca[:, 1]
@@ -24,7 +24,6 @@ def plot_pca(fig_name):
 
     fig, ax = plt.subplots(ncols=2, figsize=(22, 8), tight_layout=True)
     seaborn.set_style("dark")
-    seaborn.set(font="Futura")
 
     seaborn.scatterplot(x=pca1, y=pca2,
                         ax=ax[0], alpha=ALPHA, hue=y_train,
@@ -51,7 +50,7 @@ def plot_pca(fig_name):
 
     plt.show()
 
-    fig.savefig(f"reports/figures_for_report/{fig_name}")
+    fig.savefig(f"reports/figures_for_report/PCA")
 
     return fig
 
@@ -64,4 +63,4 @@ def _format_y_train(y_train):
 
 
 if __name__ == "__main__":
-    plot_pca("PCA")
+    plot_pca()

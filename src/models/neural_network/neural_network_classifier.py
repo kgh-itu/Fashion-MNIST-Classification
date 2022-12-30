@@ -1,29 +1,27 @@
+from __future__ import annotations
+
 from sklearn.utils import shuffle  # I assume we can use this from sk-learn
-import warnings
+
 import numpy as np
-import matplotlib.pyplot as plt
+from typing import Union
+from sklearn.model_selection import train_test_split
 
 from src.models.neural_network.layer import DenseLayer
 from src.get_train_test_split.fashion_mnist_data import FashionMnistData
+
 
 from src.models.neural_network.loss import (delta_cross_entropy,
                                             get_accuracy,
                                             calculate_loss)
 
-import seaborn
-
 
 class NeuralNetworkClassifier:
     def __init__(self,
                  layers: list[DenseLayer],
-                 learning_rate: float,
+                 learning_rate: Union[float | int],
                  epochs: int):
 
         self.layers = layers
-
-        if len(self.layers) == 0:
-            warnings.warn("Remember to manually add layers with self.add()")
-
         self.learning_rate = learning_rate
         self.epochs = epochs
 
@@ -32,40 +30,48 @@ class NeuralNetworkClassifier:
         self.cache: list[dict] = []
         self.derivatives: list[dict] = []
 
-        self.train_loss = []
-        self.train_accuracy = []
+        self.history = {"epochs": [i + 1 for i in range(self.epochs)], "train_loss": [], "train_accuracy": [],
+                        "validation_loss": [], "validation_accuracy": []}
 
-        self.validation_loss = []
-        self.validation_accuracy = []
+    def fit(self,
+            x_train: np.ndarray,
+            y_train: np.ndarray,
+            batch_size: int,
+            validation_size: Union[float | int] = 0,
+            random_state: int = 42) -> dict:
 
-    def fit(self, X_train, y_train, batch_size, X_validation=False, y_validation=False):
-        self._configure_neural_network(X_train)
+        self._configure_neural_network(x_train)
         self._init_trainable_params()
 
-        num_batches = int(np.ceil(X_train.shape[0] / batch_size))
+        num_batches = int(np.ceil(x_train.shape[0] / batch_size))
 
-        for i in range(self.epochs):
-            X_train, y_train = shuffle(X_train, y_train)
-            X_batches = np.array_split(X_train, num_batches)
+        if validation_size:
+            x_train, x_validation, y_train, y_validation = train_test_split(x_train, y_train,
+                                                                            test_size=validation_size,
+                                                                            random_state=random_state)
+
+        for i in range(1, self.epochs + 1):
+            x_train, y_train = shuffle(x_train, y_train)
+            x_batches = np.array_split(x_train, num_batches)
             y_batches = np.array_split(y_train, num_batches)
-            for X_batch, y_batch in zip(X_batches, y_batches):  # mini batch gradient descent
-                y_pred = self._forward(X_batch)
+            for x_batch, y_batch in zip(x_batches, y_batches):  # mini batch gradient descent
+                y_pred = self._forward(x_batch)
                 loss = delta_cross_entropy(predicted=y_pred, y_true=y_batch)
                 self._backward(loss)
                 self._update_trainable_params()
 
-            y_pred = self._forward(X_train)
-            acc, loss = self._evaluate(y_pred, y_train)
+            acc, loss = self._get_performance_after_epoch(x_train, y_train)
+            self.history["train_accuracy"].append(acc)
+            self.history["train_loss"].append(loss)
 
-            if i % 20 == 0:
-                print(f"EPOCH {i}: TRAIN ACCURACY {acc} TRAIN LOSS {loss}")
+            print(f"Epoch {i}: Train Accuracy: {round(acc, 3)} Train Loss {round(loss, 3)}")
 
-            if isinstance(X_validation, np.ndarray):
-                y_pred = self._forward(X_validation)
-                acc, loss = self._evaluate(y_pred, y_validation, validation=True)
+            if validation_size:
+                acc, loss = self._get_performance_after_epoch(x_validation, y_validation)
+                self.history["validation_accuracy"].append(acc)
+                self.history["validation_loss"].append(loss)
 
-                if i % 20 == 0:
-                    print(f"EPOCH {i}: VALIDATION ACCURACY {acc} VALIDATION LOSS {loss}")
+        return self.history
 
     def predict(self, X):
         y_pred = self._forward(X)
@@ -114,7 +120,7 @@ class NeuralNetworkClassifier:
             'b': np.zeros((1, layer['output_dim']))
         } for layer in self.architecture]
 
-    def _configure_neural_network(self, data):
+    def _configure_neural_network(self, input_data):
         """Sets up the correct dimensions and architecture based on the input data,
         and the input layers"""
 
@@ -124,7 +130,7 @@ class NeuralNetworkClassifier:
                     'activation': activation}
 
         self.architecture.append(
-            build_layer(data.shape[1],
+            build_layer(input_data.shape[1],
                         self.layers[0].layer_size,
                         self.layers[0].activation)
         )
@@ -139,29 +145,25 @@ class NeuralNetworkClassifier:
     def add(self, layer):
         self.layers.append(layer)
 
-    def _evaluate(self, y_pred, y_true, validation=False):
-        prediction_loss = calculate_loss(predicted=y_pred, y_true=y_true)
-        prediction_accuracy = get_accuracy(predicted=y_pred, y_true=y_true)
-        if validation:
-            self.validation_loss.append(prediction_loss)
-            self.validation_accuracy.append(prediction_accuracy)
-        else:
-            self.train_loss.append(prediction_loss)
-            self.train_accuracy.append(prediction_accuracy)
+    def _get_performance_after_epoch(self, x_train, y_true):
+        y_pred = self._forward(x_train)
+        loss = calculate_loss(predicted=y_pred, y_true=y_true)
+        acc = get_accuracy(predicted=y_pred, y_true=y_true)
+        return acc, loss
 
-        return prediction_accuracy, prediction_loss
 
-    def plot_performance(self):
-        epochs = [i for i in range(self.epochs)]
-        seaborn.set_style("darkgrid")
-        seaborn.set(font="Futura")
-        fig, ax = plt.subplots(ncols=2, nrows=2, tight_layout=True, figsize=(12, 8))
-        ax[0, 0].plot(epochs, self.train_accuracy)
-        ax[0, 1].plot(epochs, self.train_loss)
-        ax[1, 0].plot(epochs, self.validation_accuracy)
-        ax[1, 1].plot(epochs, self.validation_loss)
-        ax[0, 0].set_title("Train Accuracy")
-        ax[0, 1].set_title("Train Loss")
-        ax[1, 0].set_title("Validation Accuracy")
-        ax[1, 1].set_title("Validation Loss")
-        fig.savefig(f"reports/figures_for_report/Neural_Network_Train_Validation")
+if __name__ == "__main__":
+    from sklearn.model_selection import train_test_split
+
+    ep = 20
+    lr = 0.01
+    data = FashionMnistData()
+    x_t, y_t, _, _ = data.get_train_test_split(normalize=True)
+
+    our_model = NeuralNetworkClassifier(layers=[DenseLayer(128, "relu"),
+                                                DenseLayer(64, "relu"),
+                                                DenseLayer(5, "softmax")],
+                                        learning_rate=lr,
+                                        epochs=ep)
+
+    our_model.fit(x_t, y_t, batch_size=32, validation_size=0.5)

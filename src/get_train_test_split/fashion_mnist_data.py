@@ -11,7 +11,8 @@ class FashionMnistData:
         self.X_test = self.test[:, : -1].astype(float)
         self.y_test = self.test[:, -1].astype(int)
 
-    def get_train_test_split(self, normalize=False):
+    def get_train_test_split(self, normalize=True):
+        # from [0, 255] -> [0, 1] range
         if normalize:
             self.X_train /= 255
             self.X_test /= 255

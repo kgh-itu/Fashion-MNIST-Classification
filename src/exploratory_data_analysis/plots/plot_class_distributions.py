@@ -14,7 +14,6 @@ def plot_class_distribution():
     test_count = np.bincount(y_test)
     fig, ax = plt.subplots(ncols=2, figsize=(10, 5), tight_layout=True)
     seaborn.set_style("dark")
-    seaborn.set(font="Futura")
 
     seaborn.barplot(y=train_count, x=x,
                     palette={"T-shirt": t_shirt_color, "Pants": pants_color,
