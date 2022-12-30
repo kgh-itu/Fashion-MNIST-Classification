@@ -25,7 +25,7 @@ def accuracy(X, y,
     ax[1].hist(sk_accuracy)
     ax[1].set_title("Sklearn implementation Accuracy")
 
-    #plt.savefig(f"reports/figures_for_report/our_vs_sklearn_accuracy")
+    plt.savefig(f"reports/figures_for_report/our_vs_sklearn_accuracy")
 
 
 def depth(fitted_sk: list[DecisionTreeClassifier],
@@ -61,7 +61,7 @@ def leaf(fitted_sk: list[DecisionTreeClassifier],
 
 
 def _get_ax():
-    fig, ax = plt.subplots(ncols=2, figsize=(10, 5), tight_layout=True)
+    fig, ax = plt.subplots(ncols=2, figsize=(10, 5), tight_layout=True, sharey="all")
     seaborn.set_style("dark")
     return ax
 
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     fitted_our = [DecisionTree().fit(X_train, y_train) for _ in range(100)]
     fitted_sk = [DecisionTreeClassifier().fit(X_train, y_train) for _ in range(100)]
     accuracy(X_test, y_test, fitted_sk, fitted_our)
-    depth(fitted_sk, fitted_our)
-    leaf(fitted_sk, fitted_our)
+    #depth(fitted_sk, fitted_our)
+    #leaf(fitted_sk, fitted_our)
     plt.show()
 
