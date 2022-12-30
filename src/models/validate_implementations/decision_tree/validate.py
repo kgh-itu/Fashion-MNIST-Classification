@@ -21,7 +21,6 @@ def accuracy(X, y,
     ax[0].set_ylabel("Count")
     ax[0].hist(our_accuracy)
     ax[0].set_title("Our implementation Accuracy")
-    ax[1].set_ylabel("Count")
     ax[1].hist(sk_accuracy)
     ax[1].set_title("Sklearn implementation Accuracy")
 
@@ -37,7 +36,6 @@ def depth(fitted_sk: list[DecisionTreeClassifier],
     ax[0].set_ylabel("Count")
     ax[0].hist(our_depth)
     ax[0].set_title("Our implementation Tree Depth")
-    ax[1].set_ylabel("Count")
     ax[1].hist(sklearn_depth)
     ax[1].set_title("Sklearn implementation Tree Depth")
 
@@ -53,7 +51,6 @@ def leaf(fitted_sk: list[DecisionTreeClassifier],
     ax[0].set_ylabel("Count")
     ax[0].hist(our_leaves)
     ax[0].set_title("Our implementation Tree Leaves")
-    ax[1].set_ylabel("Count")
     ax[1].hist(sklearn_leaves)
     ax[1].set_title("Sklearn implementation Tree Leaves")
 
@@ -74,7 +71,7 @@ if __name__ == "__main__":
     fitted_our = [DecisionTree().fit(X_train, y_train) for _ in range(100)]
     fitted_sk = [DecisionTreeClassifier().fit(X_train, y_train) for _ in range(100)]
     accuracy(X_test, y_test, fitted_sk, fitted_our)
-    #depth(fitted_sk, fitted_our)
-    #leaf(fitted_sk, fitted_our)
+    depth(fitted_sk, fitted_our)
+    leaf(fitted_sk, fitted_our)
     plt.show()
 
