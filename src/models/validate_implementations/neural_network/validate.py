@@ -34,7 +34,7 @@ def loss(our_hist, tf_hist):
     seaborn.lineplot(x=epochs, y=our_hist["train_loss"], label="Our Loss")
     seaborn.lineplot(x=epochs, y=tf_hist["loss"], label="Tensorflow Loss")
     ax.legend()
-    ax.set_title("Training Accuracy Comparison")
+    ax.set_title("Training Loss Comparison")
     ax.set_xlabel("Epochs")
     ax.set_ylabel("Loss")
     plt.savefig(f"reports/figures_for_report/tf_loss_vs_our_loss")
