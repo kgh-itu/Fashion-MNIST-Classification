@@ -1,19 +1,29 @@
 from statistics import mode
 from src.models.decision_tree.node import Node
 
+import numpy as np
+import random
+
 
 class DecisionTree:
     def __init__(self,
                  max_depth=1.e10,
-                 min_samples_split=2):
+                 min_samples_split=2,
+                 criterion="gini",
+                 random_state=None):
+
+        self.max_depth = max_depth
+        self.min_samples_split = min_samples_split
+        self.criterion = criterion
+        self.random_state = random_state
+
+        if self.random_state:
+            random.seed(self.random_state)
+            np.random.seed(self.random_state)
 
         self.X = None
         self.Y = None
         self.root = None
-
-        self.max_depth = max_depth
-        self.min_samples_split = min_samples_split
-
         self.is_fitted = False
 
     def fit(self, X, Y):
@@ -24,10 +34,11 @@ class DecisionTree:
                          self.Y,
                          depth=0,
                          max_depth=self.max_depth,
-                         min_samples_split=self.min_samples_split)
+                         min_samples_split=self.min_samples_split,
+                         criterion=self.criterion,
+                         random_state=self.random_state)
 
         self.root.build_tree()
-
         self.is_fitted = True
 
         return self
@@ -51,7 +62,7 @@ class DecisionTree:
                 if cur_node.right:
                     cur_node = cur_node.right
 
-        return mode(cur_node.Y)
+        return mode(cur_node.y)
 
     def get_depth(self):
         return self.count_depth(self.root) - 1

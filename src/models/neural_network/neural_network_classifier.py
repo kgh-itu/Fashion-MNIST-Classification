@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 from sklearn.utils import shuffle  # I assume we can use this from sk-learn
+from sklearn.model_selection import train_test_split
 
 import numpy as np
 from typing import Union
-from sklearn.model_selection import train_test_split
+import random
+
 
 from src.models.neural_network.layer import DenseLayer
-from src.get_train_test_split.fashion_mnist_data import FashionMnistData
-
 
 from src.models.neural_network.loss import (delta_cross_entropy,
                                             get_accuracy,
@@ -19,11 +19,13 @@ class NeuralNetworkClassifier:
     def __init__(self,
                  layers: list[DenseLayer],
                  learning_rate: Union[float | int],
-                 epochs: int):
+                 epochs: int,
+                 random_state=None):
 
         self.layers = layers
         self.learning_rate = learning_rate
         self.epochs = epochs
+        self.random_state = random_state
 
         self.trainable_params: list[dict] = []
         self.architecture: list[dict] = []
@@ -33,12 +35,15 @@ class NeuralNetworkClassifier:
         self.history = {"epochs": [i + 1 for i in range(self.epochs)], "train_loss": [], "train_accuracy": [],
                         "validation_loss": [], "validation_accuracy": []}
 
+        if self.random_state:
+            np.random.seed(random_state)
+            random.seed(random_state)
+
     def fit(self,
             x_train: np.ndarray,
             y_train: np.ndarray,
             batch_size: int,
-            validation_size: Union[float | int] = 0,
-            random_state: int = 42) -> dict:
+            validation_size: Union[float | int] = 0) -> dict:
 
         self._configure_neural_network(x_train)
         self._init_trainable_params()
@@ -48,7 +53,7 @@ class NeuralNetworkClassifier:
         if validation_size:
             x_train, x_validation, y_train, y_validation = train_test_split(x_train, y_train,
                                                                             test_size=validation_size,
-                                                                            random_state=random_state)
+                                                                            random_state=self.random_state)
 
         for i in range(1, self.epochs + 1):
             x_train, y_train = shuffle(x_train, y_train)
@@ -150,20 +155,3 @@ class NeuralNetworkClassifier:
         loss = calculate_loss(predicted=y_pred, y_true=y_true)
         acc = get_accuracy(predicted=y_pred, y_true=y_true)
         return acc, loss
-
-
-if __name__ == "__main__":
-    from sklearn.model_selection import train_test_split
-
-    ep = 20
-    lr = 0.01
-    data = FashionMnistData()
-    x_t, y_t, _, _ = data.get_train_test_split(normalize=True)
-
-    our_model = NeuralNetworkClassifier(layers=[DenseLayer(128, "relu"),
-                                                DenseLayer(64, "relu"),
-                                                DenseLayer(5, "softmax")],
-                                        learning_rate=lr,
-                                        epochs=ep)
-
-    our_model.fit(x_t, y_t, batch_size=32, validation_size=0.5)

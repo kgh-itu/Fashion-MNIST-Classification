@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 from src.models.neural_network.activations import (relu, relu_backward,
                                                    softmax)
@@ -6,10 +7,17 @@ from src.models.neural_network.activations import (relu, relu_backward,
 
 class DenseLayer:
     def __init__(self, layer_size: int,
-                 activation: str):
+                 activation: str,
+                 random_state=None):
 
         self.layer_size = layer_size
         self.activation = activation
+        self.random_state = random_state
+
+        if self.random_state:
+            np.random.seed(random_state)
+            random.seed(random_state)
+
         self.activation_function = self._get_activation_function()
 
     def forward(self, inputs, weights, bias):

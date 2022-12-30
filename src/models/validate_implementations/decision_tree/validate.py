@@ -1,5 +1,5 @@
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.datasets import load_breast_cancer
+from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
 
 import matplotlib.pyplot as plt
@@ -15,6 +15,8 @@ def accuracy(X, y,
     our_accuracy = [accuracy_score(m.predict(X), y) for m in fitted_our]
     sk_accuracy = [accuracy_score(m.predict(X), y) for m in fitted_sk]
 
+
+
     ax = _get_ax()
     ax[0].set_ylabel("Count")
     ax[0].hist(our_accuracy)
@@ -23,7 +25,7 @@ def accuracy(X, y,
     ax[1].hist(sk_accuracy)
     ax[1].set_title("Sklearn implementation Accuracy")
 
-    plt.savefig(f"reports/figures_for_report/our_vs_sklearn_accuracy")
+    #plt.savefig(f"reports/figures_for_report/our_vs_sklearn_accuracy")
 
 
 def depth(fitted_sk: list[DecisionTreeClassifier],
@@ -39,7 +41,7 @@ def depth(fitted_sk: list[DecisionTreeClassifier],
     ax[1].hist(sklearn_depth)
     ax[1].set_title("Sklearn implementation Tree Depth")
 
-    plt.savefig(f"reports/figures_for_report/our_vs_sklearn_depth")
+    #plt.savefig(f"reports/figures_for_report/our_vs_sklearn_depth")
 
 
 def leaf(fitted_sk: list[DecisionTreeClassifier],
@@ -55,25 +57,24 @@ def leaf(fitted_sk: list[DecisionTreeClassifier],
     ax[1].hist(sklearn_leaves)
     ax[1].set_title("Sklearn implementation Tree Leaves")
 
-    plt.savefig(f"reports/figures_for_report/our_vs_sklearn_leaves")
+    #plt.savefig(f"reports/figures_for_report/our_vs_sklearn_leaves")
 
 
 def _get_ax():
     fig, ax = plt.subplots(ncols=2, figsize=(10, 5), tight_layout=True)
     seaborn.set_style("dark")
-    seaborn.set(font="Futura")
     return ax
 
 
 if __name__ == "__main__":
-    data = load_breast_cancer()
+    data = load_digits()
     X, y = data.data, data.target
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 
-    fitted_sk = [DecisionTreeClassifier().fit(X_train, y_train) for _ in range(1)]
-    fitted_our = [DecisionTree().fit(X_train, y_train) for _ in range(1)]
-
+    fitted_our = [DecisionTree().fit(X_train, y_train) for _ in range(100)]
+    fitted_sk = [DecisionTreeClassifier().fit(X_train, y_train) for _ in range(100)]
     accuracy(X_test, y_test, fitted_sk, fitted_our)
     depth(fitted_sk, fitted_our)
     leaf(fitted_sk, fitted_our)
     plt.show()
+

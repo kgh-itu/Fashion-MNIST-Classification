@@ -20,7 +20,7 @@ def accuracy(our_hist, tf_hist):
     seaborn.lineplot(x=epochs, y=our_hist["train_accuracy"], label="Our Accuracy")
     seaborn.lineplot(x=epochs, y=tf_hist["accuracy"], label="Tensorflow Accuracy")
     ax.legend()
-    ax.set_title("Training Loss Comparison")
+    ax.set_title("Training Accuracy Comparison")
     ax.set_xlabel("Epochs")
     ax.set_ylabel("Accuracy")
     plt.savefig(f"reports/figures_for_report/tf_acc_vs_our_acc")
@@ -40,7 +40,7 @@ def loss(our_hist, tf_hist):
     plt.savefig(f"reports/figures_for_report/tf_loss_vs_our_loss")
 
 
-def train_models(epochs=100):
+def train_models(epochs=100, random_state=42):
     lr = 0.01
     data = FashionMnistData()
     X_train, y_train, X_test, y_test = data.get_train_test_split()
@@ -49,13 +49,14 @@ def train_models(epochs=100):
                                                 DenseLayer(64, "relu"),
                                                 DenseLayer(5, "softmax")],
                                         learning_rate=lr,
-                                        epochs=epochs)
+                                        epochs=epochs,
+                                        random_state=42)
 
     our_history = our_model.fit(X_train, y_train, batch_size=32)
 
     y_train = keras.utils.to_categorical(y_train, 5)
     X_train = X_train.reshape(-1, 28, 28)
-
+    tf.random.set_seed(random_state)
     tf_model = keras.Sequential([
         keras.layers.Flatten(input_shape=(28, 28)),
         keras.layers.Dense(128, activation='relu'),
