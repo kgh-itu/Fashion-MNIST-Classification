@@ -20,8 +20,8 @@ class DenseLayer:
 
         self.activation_function = self._get_activation_function()
 
-    def forward(self, inputs, weights, bias):
-        z = np.dot(inputs, weights.T) + bias
+    def forward(self, x, weights, bias):
+        z = np.dot(x, weights.T) + bias
         activation = self.activation_function(z)
         return activation, z
 

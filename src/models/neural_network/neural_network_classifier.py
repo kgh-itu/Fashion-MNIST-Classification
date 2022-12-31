@@ -7,7 +7,6 @@ import numpy as np
 from typing import Union
 import random
 
-
 from src.models.neural_network.layer import DenseLayer
 
 from src.models.neural_network.loss import (delta_cross_entropy,
@@ -18,7 +17,7 @@ from src.models.neural_network.loss import (delta_cross_entropy,
 class NeuralNetworkClassifier:
     def __init__(self,
                  layers: list[DenseLayer],
-                 learning_rate: Union[float | int],
+                 learning_rate: float,
                  epochs: int,
                  random_state=None):
 
@@ -40,32 +39,32 @@ class NeuralNetworkClassifier:
             random.seed(random_state)
 
     def fit(self,
-            x_train: np.ndarray,
-            y_train: np.ndarray,
+            X: np.ndarray,
+            y: np.ndarray,
             batch_size: int,
-            validation_size: Union[float | int] = 0) -> dict:
+            validation_size: float = 0.0) -> dict:
 
-        self._configure_neural_network(x_train)
+        self._configure_neural_network(X)
         self._init_trainable_params()
 
-        num_batches = int(np.ceil(x_train.shape[0] / batch_size))
+        num_batches = int(np.ceil(X.shape[0] / batch_size))
 
         if validation_size:
-            x_train, x_validation, y_train, y_validation = train_test_split(x_train, y_train,
-                                                                            test_size=validation_size,
-                                                                            random_state=self.random_state)
+            X, x_validation, y, y_validation = train_test_split(X, y,
+                                                                test_size=validation_size,
+                                                                random_state=self.random_state)
 
         for i in range(1, self.epochs + 1):
-            x_train, y_train = shuffle(x_train, y_train)
-            x_batches = np.array_split(x_train, num_batches)
-            y_batches = np.array_split(y_train, num_batches)
+            X, y = shuffle(X, y)
+            x_batches = np.array_split(X, num_batches)
+            y_batches = np.array_split(y, num_batches)
             for x_batch, y_batch in zip(x_batches, y_batches):  # mini batch gradient descent
                 y_pred = self._forward(x_batch)
                 loss = delta_cross_entropy(predicted=y_pred, y_true=y_batch)
                 self._backward(loss)
                 self._update_trainable_params()
 
-            acc, loss = self._get_performance_after_epoch(x_train, y_train)
+            acc, loss = self._get_performance_after_epoch(X, y)
             self.history["train_accuracy"].append(acc)
             self.history["train_loss"].append(loss)
 
@@ -82,16 +81,19 @@ class NeuralNetworkClassifier:
         y_pred = self._forward(X)
         return np.argmax(y_pred, axis=1)
 
-    def _forward(self, input_data):
+    def add(self, layer: DenseLayer):
+        self.layers.append(layer)
+
+    def _forward(self, X):
         # activations_prev is input to the current layer
         # z_curr is the output of the current layer before an activation has been applied
 
         self.cache = []  # clear the cache
 
-        activations_current = input_data
+        activations_current = X
         for i in range(len(self.trainable_params)):
             activations_prev = activations_current
-            activations_current, z_curr = self.layers[i].forward(inputs=activations_prev,
+            activations_current, z_curr = self.layers[i].forward(x=activations_prev,
                                                                  weights=self.trainable_params[i]['W'],
                                                                  bias=self.trainable_params[i]['b'])
 
@@ -147,11 +149,8 @@ class NeuralNetworkClassifier:
                             self.layers[i].activation)
             )
 
-    def add(self, layer):
-        self.layers.append(layer)
-
-    def _get_performance_after_epoch(self, x_train, y_true):
-        y_pred = self._forward(x_train)
-        loss = calculate_loss(predicted=y_pred, y_true=y_true)
-        acc = get_accuracy(predicted=y_pred, y_true=y_true)
+    def _get_performance_after_epoch(self, X, y):
+        y_pred = self._forward(X)
+        loss = calculate_loss(predicted=y_pred, y_true=y)
+        acc = get_accuracy(predicted=y_pred, y_true=y)
         return acc, loss

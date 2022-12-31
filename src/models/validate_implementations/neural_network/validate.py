@@ -11,33 +11,33 @@ seed = 42
 tf.random.set_seed(seed)
 
 
-def accuracy(our_hist, tf_hist):
+def plot(our_hist, tf_hist):
+    FONTSIZE = 16
+
+    fig, ax = plt.subplots(figsize=(13, 6), tight_layout=True,
+                           ncols=2, sharex="all")
+
     epochs = our_hist["epochs"]
 
-    fig, ax = plt.subplots(figsize=(10, 5), tight_layout=True)
-    seaborn.set_style("dark")
-    seaborn.set(font="Futura")
-    seaborn.lineplot(x=epochs, y=our_hist["train_accuracy"], label="Our Accuracy")
-    seaborn.lineplot(x=epochs, y=tf_hist["accuracy"], label="Tensorflow Accuracy")
-    ax.legend()
-    ax.set_title("Training Accuracy Comparison")
-    ax.set_xlabel("Epochs")
-    ax.set_ylabel("Accuracy")
-    plt.savefig(f"reports/figures_for_report/tf_acc_vs_our_acc")
-
-
-def loss(our_hist, tf_hist):
-    epochs = our_hist["epochs"]
-
-    fig, ax = plt.subplots(figsize=(10, 5), tight_layout=True)
     seaborn.set_style("darkgrid")
-    seaborn.lineplot(x=epochs, y=our_hist["train_loss"], label="Our Loss")
-    seaborn.lineplot(x=epochs, y=tf_hist["loss"], label="Tensorflow Loss")
-    ax.legend()
-    ax.set_title("Training Loss Comparison")
-    ax.set_xlabel("Epochs")
-    ax.set_ylabel("Loss")
-    plt.savefig(f"reports/figures_for_report/tf_loss_vs_our_loss")
+    seaborn.lineplot(x=epochs, y=our_hist["train_accuracy"], label="Our Accuracy", ax=ax[0])
+    seaborn.lineplot(x=epochs, y=tf_hist["accuracy"], label="Tensorflow Accuracy", ax=ax[0])
+    ax[0].legend(fontsize=FONTSIZE)
+    ax[0].set_title("Training Accuracy Comparison", fontsize=FONTSIZE)
+    ax[0].set_xlabel("Epochs", fontsize=FONTSIZE)
+    ax[0].set_ylabel("Accuracy", fontsize=FONTSIZE)
+
+    seaborn.lineplot(x=epochs, y=our_hist["train_loss"], label="Our Loss", ax=ax[1])
+    seaborn.lineplot(x=epochs, y=tf_hist["loss"], label="Tensorflow Loss", ax=ax[1])
+    ax[1].legend(fontsize=FONTSIZE)
+    ax[1].set_title("Training Loss Comparison", fontsize=FONTSIZE)
+    ax[1].set_xlabel("Epochs", fontsize=FONTSIZE)
+    ax[1].set_ylabel("Loss", fontsize=FONTSIZE)
+
+    ax[0].tick_params(axis='both', which='both', labelsize=FONTSIZE)
+    ax[1].tick_params(axis='both', which='both', labelsize=FONTSIZE)
+
+    plt.savefig("reports/figures_for_report/tensorflow_vs_our")
 
 
 def train_models(epochs=100, random_state=42):
@@ -73,8 +73,7 @@ def train_models(epochs=100, random_state=42):
     return our_history, tf_history.history
 
 
+
 if __name__ == "__main__":
-    our_history, tf_history = train_models(epochs=200)
-    accuracy(our_history, tf_history)
-    loss(our_history, tf_history)
-    plt.show()
+    #our_history, tf_history = train_models(epochs=200)
+    plot(our_history, tf_history)

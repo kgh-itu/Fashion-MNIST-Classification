@@ -4,9 +4,6 @@ from sklearn.ensemble import RandomForestClassifier
 
 from sklearn.metrics import accuracy_score
 
-# best random forest model based on hyper-parameters found in:
-
-# src/models/models_for_reporting/best_hyper_parameters/random_forest.py
 
 data = FashionMnistData()
 x_train, y_train, x_test, y_test = data.get_train_test_split()

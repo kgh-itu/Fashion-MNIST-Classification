@@ -1,9 +1,12 @@
 \section{Decision Tree}
-In this section we will discuss the implementation, choice of hyperparameters and results of the \class{DecisionTreeClassifier()}.
-A decision tree is a supervised machine learning model that can be used for regressing or classification.
-It works by building a tree-like structure, where at each internal node, the algorithm considers all the available features and chooses the split that maximizes the purity of the resulting splits.
-This process is repeated until a certain stop condition is reached, such as a maximum depth or no further improvement in purity.
-Decision tree classifiers are popular because they are easy to understand and interpret due to their tree-like structure, and they can handle different data types and types of decision boundaries. \\
+In this section, we will discuss how the \class{DecisionTreeClassifier()} model is implemented and how the hyperparameters are chosen, as well as the results of using this model.\\
+
+A decision tree is a supervised machine learning model that can be used for classification or regression tasks.
+It works by building a tree-like structure, where at each internal node, the algorithm evaluates all the available features and selects the split that maximizes the purity of the resulting splits.
+This process is repeated until a stopping condition is reached, such as a maximum depth or no further improvement in purity.
+The resulting leaf nodes are also known as decision regions, and the prediction for a sample is made by traversing the tree to find the correct decision region and then predicting the most common class in that region.
+Decision trees are popular because they are easy to understand and interpret due to their tree-like structure, and they can handle different types of data and decision boundaries.
+However, during training, the algorithm only considers the best split for each internal node without considering the potential negative effects on future splits, which is known as a greedy approach.
 
 \begin{figure}[H]
     \centering
@@ -15,38 +18,41 @@ Decision tree classifiers are popular because they are easy to understand and in
 
 \subsection{Implementation}
 As this project is focused on classification rather than regression a classification tree was implemented.
-It was done in Python using two classes:
+It was done in Python using two classes:\\
 \begin{enumerate}
     \item \class{Node()}
     \item \class{DecisionTreeClassifier()}
     \end{enumerate}
 \vspace{10pt}
 
-\subsubsection{Node}
+\subsubsection{Node()}
 The \class{Node()} class has the most responsibility of the two.
 It holds the data and passes it down the tree constantly splitting itself into more nodes with the \code{_split()} method.
 This is done by finding the best split with the \code{_get_best_split()} method based on the impurity measure specified.
 The best split refers to the feature and cutoff value that leads to the highest gain in purity in the two resulting nodes.
 After finding the best split, it can then create two new nodes, \code{self.left} and \code{self.right} if all split criteria are fulfilled.
 The two criteria implemented are \code{max_depth} and \code{min_samples_split} and are discussed further in the \class{DecisionTreeClassifier()} implementation.
-This splitting process is what happens recursively in the \code{fit()} method in the \class{DecisionTreeClassifier()}, and is how the tree-structure is build. \\
 
-\subsubsection{DecisionTreeClassifier}
-The \class{DecisionTreeClassifier()} class is the classifier interface
+\subsubsection{DecisionTreeClassifier()}
+The \class{DecisionTreeClassifier()} is the classifier class.
 which has the \code{fit()} and \code{predict()} methods and some 'less' important
 methods \code{get_depth()} and \code{get_n_leaves()}, that can be called after the model has been fitted.
-The \code{fit()} method as mentioned earlier simply starts with a root \class{Node()} and calls \code{_split()} recursively.
-The \code{predict()} method works by using the sample input to traverse down the tree until a leaf is reached, and predicting the most common class.\\
-Our implementation allow for specification of the following 4 parameters.\\
-\begin{enumerate}[label=(\roman*)]
-    \item \code{max_depth} -- (specify maximum depth to which the tree can grow)
-    \item \code{min_samples_split} -- (specify minimum number of samples in a node before it can be split)
-    \item \code{criterion} -- (split based on either gini or entropy)
-    \item \code{random_state} -- (set random seed for reproducible results)
-    \end{enumerate}
+The \code{fit(X, y)} method takes the following two parameters, a feature matrix \code{(X)} and class labels \code{(y)}
+This data fed into the first node in the tree (the root).
+The purity of the node is then found and if a split can improve the purity and all split criteria are fulfilled the node calls \code{_split()} on itself.
+This happens recursively and is how the tree-structure is created.
+The \code{predict(X)} method takes an array of samples or a single sample, and predicts the corresponding label.
+It works by traversing down the tree until a leaf node is reached, and then predicting the most frequent class in that node.
+The constructor take the following 4 parameters.\\
+\begin{itemize}
+    \item \code{max_depth} - (An integer - the maximum depth to which the tree can grow)
+    \item \code{min_samples_split} - (An integer - minimum number of samples in a node before for it to split)
+    \item \code{criterion} - (A string - impurity measure (gini or entropy) to use when splitting)
+    \item \code{random_state} - (An integer - used to set the random seed for reproducible results)
+    \end{itemize}
 \vspace{10pt}
 
-\subsection{Asserting Correctness}
+\subsection{Correctness}
 To validate the correctness of our implementation a thorough comparison with the sklearn version was done.
 First a comparison of 100 sklearn models and 100 of our models accuracy score was done using the \code{load_digits()} dataset from \code{sklearn.datasets}
 This can be seen in Figure 5.\\
@@ -92,17 +98,9 @@ This was done \class{GridSearchCV()} from sklearn, where a range of values for e
             \end{minipage}
 \end{center}
 
-This gave the best combination as \code{max_depth=9}, \code{min_samples_split=4}, \code{criterion=gini}.
-This combination was then used to train our own implementation and the results will be reported in the next section
-
+This resulted in the following best combination of hyperparameters \code{max_depth=9}, \code{min_samples_split=4}, \code{criterion=gini}.
 
 \subsection{Results}
-
-
-
-
-
-
 
 
 \begin{table}[!ht]
@@ -137,8 +135,10 @@ Shirt   &    0.61  &    0.60  &    0.60\\
 \label{dt_evaluation}
 \end{table}\\
 
-The results reported is from our own implementation of the \class{DecisionTreeClassifier()} with the parameters specified earlier.
-To reproduce these results the \code{random_state} parameter should be set to 42.
+The results reported in table 2 are results of our implementation of the \class{DecisionTreeClassifier()} with the parameters specified in section \textbf{4.3}.
+To reproduce these exact results it should additionally be initialized with \code{random_state=42}, to eliminate the randomness.
+
+
 
 \subsubsection{Discussing Results}
 

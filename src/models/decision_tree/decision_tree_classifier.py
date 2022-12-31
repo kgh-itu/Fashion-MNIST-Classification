@@ -26,9 +26,9 @@ class DecisionTreeClassifier:
         self.root = None
         self.is_fitted = False
 
-    def fit(self, X, Y):
+    def fit(self, X, y):
         self.X = X
-        self.Y = Y
+        self.Y = y
 
         self.root = Node(self.X,
                          self.Y,
@@ -46,7 +46,7 @@ class DecisionTreeClassifier:
     def predict(self, X):
         return [self._predict(x) for x in X]
 
-    def _predict(self, x):
+    def _predict(self, X):
         cur_node = self.root
         while cur_node.split_allowed():
             best_feature = cur_node.best_feature
@@ -55,7 +55,7 @@ class DecisionTreeClassifier:
             if not cur_node.split_exists():
                 break
 
-            if x[best_feature] < best_value:
+            if X[best_feature] < best_value:
                 if cur_node.left:
                     cur_node = cur_node.left
             else:
