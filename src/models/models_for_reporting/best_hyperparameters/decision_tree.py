@@ -18,7 +18,7 @@ def find_best_hyper_parameters():
     param_grid = {
         "min_samples_split": [2, 4, 8, 10],
         'criterion': ["gini", "entropy"],
-        'max_depth': [5, 7, 9, 11, 12] + [None]} # None is default meaning it builds as long as gain (gini gain/entrp)
+        'max_depth': [None] + [5, 7, 9, 11, 12]} # None is default meaning it builds as long as gain (gini gain/entrp)
 
     model = DecisionTreeClassifier(random_state=42)
     grid = GridSearchCV(model, param_grid)

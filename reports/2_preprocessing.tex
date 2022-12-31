@@ -9,7 +9,7 @@ Each sample is a 28x28 pixels gray-scale image with a label indicating the type 
 \centering
 \includegraphics[scale=0.45]{figures_for_report/samples_from_classes}
 \captionsetup{justification=centering,margin=2cm}
-\caption{One sample from each class (reconstructing images from pixels)}
+\caption{One sample from each class}
 \end{figure}
 \subsection{Naming Conventions}
 The exploration of samples within each class gave rise to more appropriate names.
@@ -38,7 +38,7 @@ and checking that the pixel values were no greater than 255 and no smaller than 
 \subsection{Preprocessing}
 The pixels values were in the range $[0, 255]$.
 This range was normalized to $[0, 1]$ by dividing each pixel by 255.
-This was done to improve training time, and because neural networks prefers to work with small numbers.
+This was done to improve training time as working with small number is slightly faster computationally, and because neural networks prefers to work with small numbers.
 
 
 % not sure if we need this tbh but it was recommended online see below

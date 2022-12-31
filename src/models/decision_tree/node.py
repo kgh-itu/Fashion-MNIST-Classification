@@ -65,7 +65,7 @@ class Node:
                         random_state=self.random_state)
 
             self.left = left
-            self.left.split()
+            self.left._split()
 
             right = Node(right_X, right_Y,
                          depth=self.depth + 1,

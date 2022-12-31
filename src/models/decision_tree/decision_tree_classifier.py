@@ -5,7 +5,7 @@ import numpy as np
 import random
 
 
-class DecisionTree:
+class DecisionTreeClassifier:
     def __init__(self,
                  max_depth=1.e10,
                  min_samples_split=2,
@@ -38,7 +38,7 @@ class DecisionTree:
                          criterion=self.criterion,
                          random_state=self.random_state)
 
-        self.root.build_tree()
+        self.root._split()
         self.is_fitted = True
 
         return self
