@@ -1,0 +1,38 @@
+\section{Decision Tree}
+In this section we will discuss the implementation and results of the \class{DecisionTreeClassifier}.
+A decision tree classifier is a supervised machine learning model that can be used for regressing or classification.
+It works by building a tree-like structure, where at each internal node, the algorithm considers all the available features and chooses the split that maximizes the purity of the resulting splits.
+This process is repeated until a certain stop condition is reached, such as a maximum depth or no further improvement in purity.
+Decision tree classifiers are popular because they are easy to understand and interpret due to their tree-like structure, and they can handle different data types and types of decision boundaries. \\
+
+\subsection{Implementation}
+The implementation was done in python using two classes:
+\begin{enumerate}
+    \item \class{Node()}
+    \item \class{DecisionTreeClassifier()}
+    \end{enumerate}
+\vspace{10pt}
+
+\subsubsection{Node}
+The \class{Node()} class has the most responsibility of the two.
+It holds the data and passes it down the tree constantly splitting itself into more nodes with the \code{_split()} method.
+This is done by finding the best split with the \code{_get_best_split()} method based on the impurity measure specified in the \class{DecisionTreeClassifier()}.
+The best split refers to the feature and cutoff-value that leads to the highest gain in purity, meaning the more the classes are seperated in the nodes the better.
+After finding the best split, it can then create two new nodes, \code{self.left} and \code{self.right} if all split criteria are fulfilled.
+These criteria implemented are max\_depth and min\_samples\_split which and are discussed further in the \class{DecisionTreeClassifier()} implementation.
+This process then happens recursively in the \code{fit()} method in the \class{DecisionTreeClassifier()}, and is how the tree-structure is build. \\
+\subsubsection{DecisionTreeClassifier}
+The \class{DecisionTreeClassifier()} class is the classifier interface
+which has the \code{fit()} and \code{predict()} methods and some 'less' important
+methods \code{get_depth()} and \code{get_n_leaves()}, that can be called after the model has been fitted.
+Our implementation allow for specification of the following 4 parameters.\\
+\begin{enumerate}
+    \item \code{max_depth} -- specify maximum depth to which the tree can grow
+    \item \code{min_samples_split} -- specify minimum number of samples in a node before it can be split
+    \item \code{criterion} -- split based on either gini or entropy
+    \item \code{random_state} -- set random seed for reproducible results
+    \end{enumerate}
+\vspace{10pt}
+
+
+\subsection{Hyperparameter}
