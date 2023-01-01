@@ -7,6 +7,7 @@ from src.class_clothing_map import map_cls_to_clothing
 from src.colors import *
 
 
+
 def plot_pca():
     X_pca, y_train = get_n_pca(normalize=True)
     pca1 = X_pca[:, 0]
@@ -14,16 +15,16 @@ def plot_pca():
     pca3 = X_pca[:, 2]
     y_train = _format_y_train(y_train)
 
-    PALETTE = {"T-shirt": t_shirt_color, "Pants": pants_color,
-               "Sweatshirt": sweatshirt_color, "Dress": dress_color,
+    PALETTE = {"T-shirt/Top": t_shirt_color, "Trousers": trousers_color,
+               "Pullover": pullover_color, "Dress": dress_color,
                "Shirt": shirt_color}
-    HUE_ORDER = ["T-shirt", "Pants", "Sweatshirt", "Dress", "Shirt"]
-    ALPHA = 0.5
-    LABEL_SIZE = 25
-    LEGEND_SIZE = 19
+    HUE_ORDER = ["T-shirt/Top", "Trousers", "Pullover", "Dress", "Shirt"]
+    ALPHA = 0.8
+    LABEL_SIZE = 23
+    LEGEND_SIZE = 23
 
-    fig, ax = plt.subplots(ncols=2, figsize=(22, 8), tight_layout=True)
-    seaborn.set_style("dark")
+    fig, ax = plt.subplots(ncols=3, figsize=(24, 8), tight_layout=True)
+    seaborn.set_style("darkgrid")
 
     seaborn.scatterplot(x=pca1, y=pca2,
                         ax=ax[0], alpha=ALPHA, hue=y_train,
@@ -34,15 +35,23 @@ def plot_pca():
                         ax=ax[1], alpha=ALPHA, hue=y_train,
                         palette=PALETTE,
                         hue_order=HUE_ORDER,
+                        legend=False)
+
+    seaborn.scatterplot(x=pca2, y=pca3,
+                        ax=ax[2], alpha=ALPHA, hue=y_train,
+                        palette=PALETTE,
+                        hue_order=HUE_ORDER,
                         legend=True)
 
-    ax[1].legend(loc="upper right", fancybox=True,
+    ax[2].legend(loc="upper right", fancybox=True,
                  fontsize=LEGEND_SIZE, shadow=True)
 
-    ax[0].set_xlabel(f'PCA 1', fontsize=LABEL_SIZE)
-    ax[0].set_ylabel(f'PCA 2', fontsize=LABEL_SIZE)
-    ax[1].set_xlabel(f'PCA 1', fontsize=LABEL_SIZE)
-    ax[1].set_ylabel(f'PCA 3', fontsize=LABEL_SIZE)
+    ax[0].set_xlabel(f'PC 1', fontsize=LABEL_SIZE)
+    ax[0].set_ylabel(f'PC 2', fontsize=LABEL_SIZE)
+    ax[1].set_xlabel(f'PC 1', fontsize=LABEL_SIZE)
+    ax[1].set_ylabel(f'PC 3', fontsize=LABEL_SIZE)
+    ax[2].set_xlabel(f'PC 2', fontsize=LABEL_SIZE)
+    ax[2].set_ylabel(f'PC 3', fontsize=LABEL_SIZE)
 
     for ax_ in ax:
         ax_.set_xticklabels([])

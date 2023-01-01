@@ -9,28 +9,30 @@ from src.colors import *
 def plot_class_distribution():
     data = FashionMnistData()
     _, y_train, _, y_test = data.get_train_test_split()
-    x = ["T-shirt", "Pants", "Sweatshirt", "Dress", "Shirt"]
+    x = ["T-shirt/Top", "Trousers", "Pullover", "Dress", "Shirt"]
     train_count = np.bincount(y_train)
     test_count = np.bincount(y_test)
-    fig, ax = plt.subplots(ncols=2, figsize=(10, 5), tight_layout=True)
-    seaborn.set_style("dark")
+    fig, ax = plt.subplots(ncols=2, figsize=(11, 6), tight_layout=True, sharey="all")
+    seaborn.set_style("darkgrid")
 
     seaborn.barplot(y=train_count, x=x,
-                    palette={"T-shirt": t_shirt_color, "Pants": pants_color,
-                             "Sweatshirt": sweatshirt_color, "Dress": dress_color,
+                    palette={"T-shirt/Top": t_shirt_color, "Trousers": trousers_color,
+                             "Pullover": pullover_color, "Dress": dress_color,
                              "Shirt": shirt_color},
-                    hue_order=["T-shirt", "Pants", "Sweatshirt", "Dress", "Shirt"],
+                    hue_order=["T-shirt/Top", "Trousers", "Pullover", "Dress", "Shirt"],
                     ax=ax[0])
-    ax[0].set_title("Training Data")
+    ax[0].set_title("Training Data", fontsize=15)
 
     seaborn.barplot(y=test_count, x=x,
-                    palette={"T-shirt": t_shirt_color, "Pants": pants_color,
-                             "Sweatshirt": sweatshirt_color, "Dress": dress_color,
+                    palette={"T-shirt/Top": t_shirt_color, "Trousers": trousers_color,
+                             "Pullover": pullover_color, "Dress": dress_color,
                              "Shirt": shirt_color},
-                    hue_order=["T-shirt", "Pants", "Sweatshirt", "Dress", "Shirt"],
+                    hue_order=["T-shirt/Top", "Trousers", "Pullover", "Dress", "Shirt"],
                     ax=ax[1])
 
-    ax[1].set_title("Test Data")
+    ax[0].tick_params(axis='both', which='both', labelsize=13)
+    ax[1].tick_params(axis='both', which='both', labelsize=13)
+    ax[1].set_title("Test Data", fontsize=15)
     fig_name = "class_distribution"
     plt.savefig(f"reports/figures_for_report/{fig_name}", bbox_inches='tight', pad_inches=0.2)
 

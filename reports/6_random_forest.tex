@@ -1,0 +1,8 @@
+\section{RandomForestClassifier()}
+The last classifier used is the \class{RandomForestClassifier()} from \code{sklearn.ensemble}.
+A random forest is a type of ensemble learning method.
+An ensemble method is a machine learning technique that combines the predictions of multiple models to make more accurate predictions than any individual model.
+In a Random Forest, a set of decision trees are typically trained on a subset of the original dataset, however in some cases each tree can be trained on the entire data set.
+The predicted class of an input sample is a vote by the trees in the forest, weighted by their probability estimates.
+That is, the predicted class is the one with highest mean probability estimate across the trees.
+This means that a random forest is not as prone to overfitting as a single decision tree, since this voting process helps to reduce the variance of the model.
