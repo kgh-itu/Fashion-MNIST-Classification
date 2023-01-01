@@ -80,8 +80,9 @@ The models used here has two ReLU activated hidden layers with 128 and 64 neuron
     \caption{Comparing Accuracy and Loss with Tensorflow}
 \end{figure}
 
-As seen in Figure 7 the trend in accuracy and loss is very similar same however Tensorflow's model is obviously far better optimized so the curves are much smoother.
-Based on Figure 7 our model was considered correctly implemented.
+The trend in accuracy and loss for our model, as shown in Figure 7, is comparable to that of Tensorflow's model.
+However, Tensorflow's model exhibits a smoother trend due to its better optimization.
+Based on the results displayed in Figure 7, our model can be considered to have been implemented correctly.
 
 \subsection{Hyperparameters}
 Neural Networks are excellent at learning from data.
@@ -90,7 +91,7 @@ We restricted ourselves to just look at the number of epochs while keeping all t
 \code{learning_rate=0.01}, \code{batch_size=32}, \code{random_state=42}.
 This meant a number of epochs that gave a high validation accuracy while still keeping the validation loss low was optimal.
 Figure 8 shows the models performance during training and was used to choose $70$ as the number of epochs.
-These parameters was then used to train an instance of the \class{NeuralNetworkClassifier()} and the results are reported in the following section.
+These parameters were then used to train an instance of the \class{NeuralNetworkClassifier()} and the results are reported in the following section.
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.45]{figures_for_report/train_validation_nn_performance}
