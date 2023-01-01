@@ -41,7 +41,7 @@ which gave the best combination as:\
    \end{tcolorbox}
 
 
-Using the entire dataset gave the apparently didn't cause overfitting for this particular dataset, so \code{boostrap} was set to false.
+Using the entire dataset did not cause overfitting for this particular dataset, so \code{boostrap} was set to false.
 These values were selected due to their ability to effectively prevent overfitting and improve the accuracy of the model, just like the decision tree parameters.
 Then an instance of the \class{RandomForestClassifier()} was trained, with the parameters, while keeping all others at their default values.
 Additionally \code{random_state=42} was again used, and will lead to the reproduction of the results reported in the next section.
