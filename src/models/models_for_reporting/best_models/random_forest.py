@@ -7,16 +7,15 @@ data = FashionMnistData()
 x_train, y_train, x_test, y_test = data.get_train_test_split()
 x_train.shape[0]
 
-model = RandomForestClassifier(n_estimators=100, bootstrap=False, criterion="entropy",
-                               min_samples_leaf=2, max_depth=None,
-                               max_features="auto",
-                               random_state=42).fit(x_train, y_train,)
+model = RandomForestClassifier(n_estimators=100, bootstrap=False, criterion="gini",
+                               min_samples_split=4, max_depth=21,
+                               random_state=42).fit(x_train, y_train)
 
 training_preds = model.predict(x_train)
-preds = model.predict(x_test)
+test_preds = model.predict(x_test)
 
-print("Test ACCURACY", accuracy_score(y_test, preds))
+print("Test ACCURACY", accuracy_score(y_test, test_preds))
 print("Train ACCURACY", accuracy_score(y_train, training_preds))
-print("F1", list(enumerate(f1_score(y_test, preds, average=None))))
-print("RECALL", list(enumerate(recall_score(y_test, preds, average=None))))
-print("PRECISION", list(enumerate(precision_score(y_test, preds, average=None))))
+print("F1", list(enumerate(f1_score(y_test, test_preds, average=None))))
+print("RECALL", list(enumerate(recall_score(y_test, test_preds, average=None))))
+print("PRECISION", list(enumerate(precision_score(y_test, test_preds, average=None))))

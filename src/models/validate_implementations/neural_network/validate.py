@@ -20,6 +20,7 @@ def plot(our_hist, tf_hist):
     epochs = our_hist["epochs"]
 
     seaborn.set_style("darkgrid")
+    seaborn.set_palette("pastel")
     seaborn.lineplot(x=epochs, y=our_hist["train_accuracy"], label="Our Accuracy", ax=ax[0])
     seaborn.lineplot(x=epochs, y=tf_hist["accuracy"], label="Tensorflow Accuracy", ax=ax[0])
     ax[0].legend(fontsize=FONTSIZE)
@@ -36,9 +37,8 @@ def plot(our_hist, tf_hist):
 
     ax[0].tick_params(axis='both', which='both', labelsize=FONTSIZE)
     ax[1].tick_params(axis='both', which='both', labelsize=FONTSIZE)
-
     plt.savefig("reports/figures_for_report/tensorflow_vs_our")
-
+    plt.show()
 
 def train_models(epochs=100, random_state=42):
     lr = 0.01

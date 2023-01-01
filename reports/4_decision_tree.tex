@@ -7,6 +7,7 @@ This process is repeated until a stopping condition is reached, such as a maximu
 The resulting leaf nodes are also known as decision regions, and the prediction for a sample is made by traversing the tree to find the correct decision region and then predicting the most common class in that region.
 Decision trees are popular because they are easy to understand and interpret due to their tree-like structure, and they can handle different types of data and decision boundaries.
 However, during training, the algorithm only considers the best split for each internal node without considering the potential negative effects on future splits, which is known as a greedy approach, and can potentially lead to sub-optimal trees for some datasets.
+
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.25]{figures_for_report/example_decision_tree}
@@ -52,18 +53,17 @@ The constructor take the following 4 parameters.\\
 \vspace{10pt}
 
 \subsection{Correctness}
-To validate the correctness of our implementation a thorough comparison with the sklearn version was done.
-First a comparison of 100 sklearn models and 100 of our models accuracy score was done using the \code{load_digits()} dataset from \code{sklearn.datasets}
-This can be seen in Figure 5.\\
+To validate the correctness of our implementation a thorough comparison with the Scikit-learn version was done.
+First a comparison of 200 Scikit-learn models and 200 of our models accuracy score was done using the \code{load_digits()} dataset from \code{Scikit-learn.datasets}, with a training and test size of $80\%$ and $20\%$ respectively.
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.55]{figures_for_report/our_vs_sklearn_accuracy}
     \captionsetup{justification=centering,margin=2cm}
-    \caption{Accuracy distribution from 100 models}
+    \caption{Accuracy distribution from 200 models}
 \end{figure}
 
-Each decision tree used in Figure 5 is fitted with the default parameters of both the sklearn and our model.
+Each decision tree used in Figure 5 is fitted with the default parameters of both the Scikit-learn and our model.
 This means that the \code{max_depth} is not restricted and the \code{min_samples_split} is set to 2.
 A decision tree has randomness involved in the training process.
 This is because if two splits yield the same purity gain, one of them is chosen at random.
@@ -77,17 +77,16 @@ Lastly a comparison of \textbf{some} of the actual splits (best feature and cuto
 the two implementations also agreed on this.\\
 
 \subsection{Hyperparameters}
-A decision tree is very prone to overfitting to the training data.
+A decision tree is extremely prone to overfitting to the training data.
 This is especially the case if the max depth or other early stopping to the growth is not controlled.
-This can lead to a  very high training accuracy but might struggle with unseen data.
-Another way to control this is using post-pruning where the tree is first grown fully, and then afterwards its size is reduced.
-This was not implemented in our model so what was tried instead was to find the optimal \code{max_depth}, to reduce overfitting.
-Along with finding an optimal \code{max_depth}, a good combination of \code{max_depth}, \code{min_samples_split} and
-\code{criterion} (gini or entropy) was found.
-This was done \class{GridSearchCV()} from sklearn, where a range of values for each of the mentioned parameters was searched for.
-\class{GridSearchCV()} uses cross-validation, in this case 5-fold, on the training data, and tests all combinations specified in the following parameter grid:
+This can lead to a very high training accuracy but might struggle with unseen data.
+Another way to solve this is using post-pruning where the tree is first grown fully, and then afterwards its size is reduced.
+Post-pruning was not implemented, instead, we focused on identifying an optimal combination of \code{max_depth}, \code{min_samples_split}, and \code{criterion} (gini or entropy).
+This was done using 5-fold cross-validation through the Scikit-learn class \class{GridSearchCV()}.
+The following parameter grid was specified and passed to the \class{GridSearchCV()} instance.
 
-\begin{center} \begin{minipage}{4in}
+\begin{center}
+    \begin{minipage}{3in}
 
 \begin{itemize}
     \item \code{max_depth}: [None, 5, 7, 9, 11, 12]
@@ -97,11 +96,17 @@ This was done \class{GridSearchCV()} from sklearn, where a range of values for e
             \end{minipage}
 \end{center}
 
-This resulted in the following best combination of hyperparameters \code{max_depth=9}, \code{min_samples_split=4}, \code{criterion=gini}.
 
-\subsection{Results}
+This led to the following combination of hyperparameters\
+\begin{tcolorbox}[colback=white,
+                  arc=0pt,
+                outer=0pt]
+\centering \code{max_depth=9} \, \, \code{min_samples_split=4} \, \, \code{criterion=gini}\\
+   \end{tcolorbox}
 
+These values were selected due to their ability to effectively prevent overfitting, due to achieving the highest validation accuracy score.
 
+\subsection{Results}\label{subsec:results}
 \begin{table}[!ht]
 \begin{subtable}[c]{0.4\textwidth}
 \footnotesize
@@ -130,8 +135,8 @@ Shirt   &    0.61  &    0.60  &    0.60\\
 \end{tabular}
 \captionsetup{justification=centering,margin=1cm}
 \end{subtable}
-\caption{Decision Tree Performance Evaluation}
-\label{dt_evaluation}
+\caption{Decision Tree Performance}
+\label{tab:dt_evaluation}
 \end{table}\\
 
 The results reported in table 2 are results of our implementation of the \class{DecisionTreeClassifier()} with the hyperparameters specified in section \textbf{4.3}.

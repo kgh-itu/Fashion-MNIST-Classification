@@ -1,5 +1,5 @@
 \section{Feed-Forward Neural Network}
-In this section, we will discuss how the NeuralNetworkClassifier() model is implemented and how the hyperparameters are chosen, as well as the results of using this model.\\
+In this section, we will discuss how the \class{NeuralNetworkClassifier()} model is implemented and how the hyperparameters are chosen, as well as the results of using this model.\\
 
 A feedforward neural network is a type of artificial neural network that consists of an input layer, one or more hidden layers, and an output layer.
 Each layer consists of a set of neurons, which are connected to the neurons in the next layer via weights.
@@ -13,7 +13,7 @@ They are a popular choice for machine learning tasks due to their ability to lea
 Typically neural networks require significantly more training-data than the traditional machine learning methods to produce desirable results.
 \\
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.3]{figures_for_report/simple_neural_network}
     \captionsetup{justification=centering,margin=2cm}
@@ -73,7 +73,7 @@ For the scope of this project the correctness of our implementation was done pri
 The training accuracy and training loss was compared to a similar model from the Tensorflow library.
 The models used here has two ReLU activated hidden layers with 128 and 64 neurons respectively, a softmax activated output layer with 5 neurons (one for each clothing item), a learning rate of 0.01, and lastly for reproduction of these exact graph \code{random_state=42}, and \code{tf.random.set_seed(42)} was used.\\
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.45]{figures_for_report/tensorflow_vs_our}
     \captionsetup{justification=centering,margin=2cm}
@@ -129,7 +129,7 @@ Shirt   &    0.72  &    0.73  &    0.72\\
 \end{tabular}
 \captionsetup{justification=centering,margin=1cm}
 \end{subtable}
-\caption{FNN Performance Evaluation}
+\caption{Neural Network Performance}
 \label{nn_evaluation}
 \end{table}\\
 

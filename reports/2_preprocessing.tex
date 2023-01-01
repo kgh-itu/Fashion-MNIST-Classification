@@ -26,26 +26,21 @@ The clothing type will be used instead of the labels in the report for better re
 \end{tabular} \\[0.2cm]
 \captionsetup{justification=centering,margin=2cm}
 \caption{Mapping from class-labels to clothing type}
-\label{features}
+\label{tab:features}
 \end{table}
 
 
-\subsection{Data Cleaning}
+\subsection{Data Cleaning}\label{subsec:data-cleaning}
 The dataset provided was already in a cleaned state, which was verified by checking for missing values,
 and checking that the pixel values were no greater than 255 and no smaller than 0.
 
-\subsection{Preprocessing}
+\subsection{Preprocessing}\label{subsec:preprocessing}
 The pixels values were in the range $[0, 255]$.
 This range was normalized to $[0, 1]$ by dividing each pixel by 255.
-This was done to improve training time as working with small number is slightly faster computationally, and because neural networks prefers to work with small numbers.
+This was done to improve training time and make it easier for neural networks to work with the data, as smaller numbers are slightly faster to compute and are preferred by neural networks
 
 
-% not sure if we need this tbh but it was recommended online see below
-% https://sebastianraschka.com/Articles/2014_about_feature_scaling.html
-% 1 of many sources for this ^ https://machinelearningmastery.com/how-to-manually-scale-image-pixel-data-for-deep-learning/ %
-% https://tanthiamhuat.files.wordpress.com/2018/03/deeplearningwithpython.pdf pdf page 158 %
-
-\subsection{Class Distribution}
+\subsection{Class Distribution}\label{subsec:class-distribution}
 Whether or not a machine learning model can learn to predict classes well depends to a high degree on how those classes are distributed within our training and training dataset.
 Both the datasets are extremely balanced, with the test being fully balanced ($1000$ of each class).
 This is illustrated on the plots below
@@ -54,6 +49,6 @@ This is illustrated on the plots below
 \centering
 \includegraphics[scale=0.45]{figures_for_report/class_distribution}
 \captionsetup{justification=centering,margin=2cm}
-\caption{Distribution of clothing items in our training and test dataset}
+\caption{Distribution of clothing items in our training and test dataset}\label{fig:figure2}
 \end{figure}
 

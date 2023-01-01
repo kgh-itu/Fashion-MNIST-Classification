@@ -11,25 +11,23 @@ def find_best_hyper_parameters():
     dat = FashionMnistData()
     x_train, y_train, x_test, y_test = dat.get_train_test_split()
 
-    param_grid = {"max_depth": [10, 15, 20, None],
-                  "min_samples_leaf": [1, 2, 4, 8],
-                  'bootstrap': [True, False],
-                  'criterion': ["gini", "entropy"]}
+    param_grid = {"max_depth": [None, 10, 15, 20, 21, 22, 23],
+                  "min_samples_split": [2, 4, 8],
+                  'criterion': ["gini", "entropy"],
+                  "bootstrap": [True, False]}
 
     model = RandomForestClassifier(random_state=42)
     grid = GridSearchCV(model, param_grid)
     grid.fit(x_train, y_train)
 
-    best_min_samples_leaf = grid.best_estimator_.get_params()['min_samples_leaf']
+    best_min_samples_split = grid.best_estimator_.get_params()['min_samples_split']
     best_criterion = grid.best_estimator_.get_params()['criterion']
     best_max_depth = grid.best_estimator_.get_params()['max_depth']
-    best_max_features = grid.best_estimator_.get_params()['max_features']
     best_bootstrap = grid.best_estimator_.get_params()['bootstrap']
 
-    print('Best Min Samples Leaf:', best_min_samples_leaf)
+    print('Best min_samples_split:', best_min_samples_split)
     print('Best Criterion:', best_criterion)
     print('Best Max Depth:', best_max_depth)
-    print('Best Max Features', best_max_features)
     print('Best bootstrap:', best_bootstrap)
 
     return grid

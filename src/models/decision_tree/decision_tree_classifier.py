@@ -3,6 +3,7 @@ from src.models.decision_tree.node import Node
 
 import numpy as np
 import random
+import time
 
 
 class DecisionTreeClassifier:
@@ -10,12 +11,14 @@ class DecisionTreeClassifier:
                  max_depth=1.e10,
                  min_samples_split=2,
                  criterion="gini",
-                 random_state=None):
+                 random_state=None,
+                 verbose=True):
 
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
         self.criterion = criterion
         self.random_state = random_state
+        self.verbose = verbose
 
         if self.random_state:
             random.seed(self.random_state)
@@ -27,6 +30,7 @@ class DecisionTreeClassifier:
         self.is_fitted = False
 
     def fit(self, X, y):
+        start_time = time.time()
         self.X = X
         self.Y = y
 
@@ -40,6 +44,11 @@ class DecisionTreeClassifier:
 
         self.root._split()
         self.is_fitted = True
+
+        if self.verbose:
+            print(f"---training time [{time.time() - start_time} seconds]---")
+            print(f"DecisionTreeClassifier() has depth of {self.get_depth()}")
+            print(f"DecisionTreeClassifier() has {self.get_n_leaves()} leaf nodes")
 
         return self
 
