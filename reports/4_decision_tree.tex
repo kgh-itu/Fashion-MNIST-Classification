@@ -1,18 +1,18 @@
 \section{Decision Tree}
-In this section, we will discuss how the \class{DecisionTreeClassifier()} model is implemented and how the hyperparameters are chosen, as well as the results of using this model.\\
+In this section, we will discuss how the \class{DecisionTreeClassifier()} is implemented and how the hyperparameters are chosen, as well as the results of using this model.\\
 
 A decision tree is a supervised machine learning model that can be used for classification or regression tasks.
-It works by building a tree-like structure, where at each internal node, the algorithm evaluates all the available features and selects the split that maximizes the purity of the resulting splits.
+It works by building a tree-like structure, where at each internal node, the algorithm evaluates all the available features and selects the split that maximizes the purity of the resulting nodes.
 This process is repeated until a stopping condition is reached, such as a maximum depth or no further improvement in purity.
-The resulting leaf nodes are also known as decision regions, and the prediction for a sample is made by traversing the tree to find the correct decision region and then predicting the most common class in that region.
+The resulting leaf nodes are also known as decision regions, and the prediction for a sample is made by traversing the tree to find the correct decision region, and then predicting the most common class in that region.
 Decision trees are popular because they are easy to understand and interpret due to their tree-like structure, and they can handle different types of data and decision boundaries.
-However, during training, the algorithm only considers the best split for each internal node without considering the potential negative effects on future splits, which is known as a greedy approach, and can potentially lead to sub-optimal trees for some datasets.
+However, during training, the algorithm only considers the best split for each internal node without considering the potential negative effects on future splits, which is known as a greedy approach, and can potentially lead to suboptimal trees for some datasets.
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.25]{figures_for_report/example_decision_tree}
     \captionsetup{justification=centering,margin=2cm}
-    \caption{Simple Decision Tree}
+    \caption{A Simple Decision Tree}
 \end{figure}
 
 
@@ -30,31 +30,31 @@ The \class{Node()} class represents the internal and leaf nodes that make up the
 The \class{Node()} has the most responsibility of the two classes.
 It holds the data and passes it down the tree constantly splitting itself into more nodes with the \code{_split()} method.
 This is done by finding the best split with the \code{_get_best_split()} method based on either the gini or entropy impurity measure.
-The term 'best split' refers to the process of selecting the feature and value that will result in the highest increase in the purity of the resulting nodes when splitting a node in the tree.
+The term 'best split' refers to the process of selecting the feature and value, that will result in the highest purity gain.
 The best split of a given \code{Node()} can then be used to create two new nodes \code{self.left} and \code{self.right}.
 
 
 \subsubsection{DecisionTreeClassifier()}
 The \class{DecisionTreeClassifier()} is the classifier class.
-which has the \code{fit()} and \code{predict()} methods and two additional  methods \code{get_depth()} and \code{get_n_leaves()}, that can be called after the model has been fitted, to get the depth and number of leaf nodes of the resulting decision tree.
-The \code{fit(X, y)} method takes the following two parameters, a feature matrix \code{(X)} and class labels \code{(y)}
-This data fed into the first node in the tree (the root).
+It has the \code{fit()} and \code{predict()} methods and two additional  methods \code{get_depth()} and \code{get_n_leaves()}, that can be called after the model has been fitted, to get the depth and number of leaf nodes of the resulting decision tree.
+The \code{fit(X, y)} method takes the following two parameters, a feature matrix \code{(X)} and class labels \code{(y)}.
+This data is fed into the first node of the tree (the root).
 The purity of the node is then found and if a split can improve the purity and all split criteria (\code{max_depth} and \code{min_samples_split}) are fulfilled the node calls \code{_split()} on itself.
 This happens recursively and is how the tree-structure is created.
-The \code{predict(X)} method takes an array of samples or a single sample, and predicts the corresponding label.
+The \code{predict(X)} method takes an array of samples, or a single sample, and predicts the corresponding label.
 It works by traversing down the tree until a leaf node is reached, and then predicting the most frequent class in that node.
-The constructor take the following 4 parameters.\\
+The constructor takes the following 4 parameters:\\
 \begin{itemize}
     \item \code{max_depth} - (An integer - the maximum depth to which the tree can grow)
-    \item \code{min_samples_split} - (An integer - minimum number of samples in a node before for it to split)
-    \item \code{criterion} - (A string - impurity measure (gini or entropy))
+    \item \code{min_samples_split} - (An integer - minimum number of samples in a node for it to split)
+    \item \code{criterion} - (A string - impurity measure ('gini' or 'entropy'))
     \item \code{random_state} - (An integer - set the random seed for reproducible results)
     \end{itemize}
 \vspace{10pt}
 
 \subsection{Correctness}
-To validate the correctness of our implementation a thorough comparison with the Scikit-learn version was done.
-First a comparison of 200 Scikit-learn models and 200 of our models accuracy score was done using the \code{load_digits()} dataset from \code{Scikit-learn.datasets}, with a training and test size of $80\%$ and $20\%$ respectively.
+To validate the correctness of our implementation a thorough comparison with the Scikit-learn version was made.
+First, a comparison was made between the accuracy scores of 200 Scikit-learn models and 200 of our models using the \code{load_digits()} dataset from \code{Scikit-learn.datasets}, with a training and test size of $80\%$ and $20\%$ respectively.
 
 \begin{figure}[H]
     \centering
@@ -63,8 +63,8 @@ First a comparison of 200 Scikit-learn models and 200 of our models accuracy sco
     \caption{Accuracy distribution from 200 models}
 \end{figure}
 
-Each decision tree used in Figure 5 is fitted with the default parameters of both the Scikit-learn and our model.
-This means that the \code{max_depth} is not restricted and the \code{min_samples_split} is set to 2.
+Each decision tree used in \textbf{Figure 5} is initialized with the default parameters of both the Scikit-learn and our model.
+This means, \code{max_depth=None}, \code{min_samples_split=2}.\\
 A decision tree has randomness involved in the training process.
 This is because if two splits yield the same purity gain, one of them is chosen at random.
 This means the models might perform slightly different based on a single evaluation but very similar on average as seen in Figure 5.\\
