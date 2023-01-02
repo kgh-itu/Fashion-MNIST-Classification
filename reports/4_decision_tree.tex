@@ -28,7 +28,7 @@ It was done in Python using two classes:\\
 \subsubsection{Node()}
 The \class{Node()} class represents the internal and leaf nodes that make up the decision tree.
 The \class{Node()} has the most responsibility of the two classes.
-It holds the data and passes it down the tree constantly splitting itself into more nodes with the \code{_split()} method.
+It holds the data and passes it down the tree constantly splitting itself into more nodes with the \code{split()} method.
 This is done by finding the best split with the \code{_get_best_split()} method based on either the gini or entropy impurity measure.
 The term 'best split' refers to the process of selecting the feature and value, that will result in the highest purity gain.
 The best split of a given \code{Node()} can then be used to create two new nodes \code{self.left} and \code{self.right}.
@@ -39,7 +39,7 @@ The \class{DecisionTreeClassifier()} is the classifier class.
 It has the \code{fit()} and \code{predict()} methods and two additional  methods \code{get_depth()} and \code{get_n_leaves()}, that can be called after the model has been fitted, to get the depth and number of leaf nodes of the resulting decision tree.
 The \code{fit(X, y)} method takes the following two parameters, a feature matrix \code{(X)} and class labels \code{(y)}.
 This data is fed into the first node of the tree (the root).
-The purity of the node is then found and if a split can improve the purity and all split criteria (\code{max_depth} and \code{min_samples_split}) are fulfilled the node calls \code{_split()} on itself.
+The purity of the node is then found and if a split can improve the purity and all split criteria (\code{max_depth} and \code{min_samples_split}) are fulfilled the node calls \code{split()} on itself.
 This happens recursively and is how the tree-structure is created.
 The \code{predict(X)} method takes an array of samples, or a single sample, and predicts the corresponding label.
 It works by traversing down the tree until a leaf node is reached, and then predicting the most frequent class in that node.
