@@ -43,7 +43,7 @@ The purity of the node is then found and if a split can improve the purity and a
 This happens recursively and is how the tree-structure is created.
 The \code{predict(X)} method takes an array of samples, or a single sample, and predicts the corresponding label.
 It works by traversing down the tree until a leaf node is reached, and then predicting the most frequent class in that node.
-The constructor takes the following 4 parameters:\\
+The constructor takes the following four parameters:\\
 \begin{itemize}
     \item \code{max_depth} - (An integer - the maximum depth to which the tree can grow)
     \item \code{min_samples_split} - (An integer - minimum number of samples in a node for it to split)
@@ -64,25 +64,24 @@ First, a comparison was made between the accuracy scores of 200 Scikit-learn mod
 \end{figure}
 
 Each decision tree used in \textbf{Figure 5} is initialized with the default parameters of both the Scikit-learn and our model.
-This means, \code{max_depth=None}, \code{min_samples_split=2}.\\
-A decision tree has randomness involved in the training process.
+This means \code{max_depth=None} and \code{min_samples_split=2}.
+\\A decision tree has randomness involved in the training process.
 This is because if two splits yield the same purity gain, one of them is chosen at random.
-This means the models might perform slightly different based on a single evaluation but very similar on average as seen in Figure 5.\\
+Therefore, the models might perform slightly different based on a single evaluation but very similar on average as seen in \textbf{Figure 5}.\\
 
-The resulting tree depths and number of leaves were also compared and showed that the decision trees in both implementations grow to the same
-depth and with the same number of leaf nodes.
+The depth and number of leaves of the resulting trees were also compared and it was found that the decision trees in both implementations had the same depth and number of leaf nodes.
 \\
 
-Lastly a comparison of \textit{some} of the actual splits (best feature and cutoff) were done to assert correctness and as a sanity check, and
-the two implementations also agreed on this.\\
+Finally, a comparison of a few of the actual splits (best feature and cutoff) was conducted to verify the accuracy of the implementations and ensure that everything was working as expected.
+It was found that the two implementations were in agreement on these splits.
 
 \subsection{Hyperparameters}
 A decision tree is extremely prone to overfitting to the training data.
-This is especially the case if the max depth or other early stopping to the growth is not controlled.
-This can lead to a very high training accuracy but might struggle with unseen data.
+A decision tree is highly susceptible to overfitting to the training data, particularly if there is no control over the maximum depth or other measures to limit tree growth.
+This can lead to a very high training accuracy, but it might struggle with unseen data.
 Another way to solve this is using post-pruning where the tree is first grown fully, and then afterwards its size is reduced.
-Post-pruning was not implemented, instead, we focused on identifying an optimal combination of \code{max_depth}, \code{min_samples_split}, and \code{criterion} (gini or entropy).
-This was done using 5-fold cross-validation through the Scikit-learn class \class{GridSearchCV()}.
+Post-pruning was not implemented, instead we focused on identifying an optimal combination of \code{max_depth}, \code{min_samples_split}, and \code{criterion} (gini or entropy).
+This was done using 5-fold cross-validation with the Scikit-learn class \class{GridSearchCV()}.
 The following parameter grid was specified and passed to the \class{GridSearchCV()} instance.
 
 \begin{center}
@@ -91,21 +90,21 @@ The following parameter grid was specified and passed to the \class{GridSearchCV
 \begin{itemize}
     \item \code{max_depth}: [None, 5, 7, 9, 11, 12]
     \item \code{min_samples_split}: [2, 4, 8, 10]
-    \item \code{criterion}: [gini, entropy] \\
+    \item \code{criterion}: [\('\)gini', \('\)entropy'] \\
 \end{itemize}
             \end{minipage}
 \end{center}
 
 
-This led to the following combination of hyperparameters\\
+This led to the following combination of hyperparameters:\\
 \begin{tcolorbox}[colback=white,
                   arc=0pt,
                 outer=0pt]
 \centering \code{max_depth=9} \, \, \code{min_samples_split=4} \, \, \code{criterion=gini}\\
    \end{tcolorbox}
 
-The values were selected due to their ability to effectively prevent overfitting, by achieving the highest validation accuracy score.
-Due to the balanced dataset and the scope of this project it was decided not to prioritize increasing either precision or recall for the cost of accuracy score, as it would be for detecting i.e rare medical conditions.
+These parameters were selected due to their ability to effectively prevent overfitting, by achieving the highest validation accuracy score.
+Due to the balanced dataset and the scope of this project, it was decided to find the parameters that achieved the highest accuracy score rather than other metrics such as precision or recall.
 \subsection{Results}\label{subsec:results}
 \begin{table}[!ht]
 \begin{subtable}[c]{0.4\textwidth}
@@ -137,13 +136,13 @@ Shirt   &    0.61  &    0.60  &    0.60\\
 \end{subtable}
 \caption{Decision Tree Performance}
 \label{tab:dt_evaluation}
-\end{table}\\
+\end{table} \\
 
 The results in \textbf{Table 2} are from an instance of our implementation of the \class{DecisionTreeClassifier()} with the hyperparameters specified in section \textbf{4.3}.
-To reproduce these exact results it should additionally be initialized with \code{random_state=42}, to eliminate the randomness. \\
+To reproduce these exact results it should additionally be initialized with \code{random_state=42}. \\
 
 The \class{DecisionTreeClassifier()} achieved a test accuracy of $79.32\%$ and training accuracy of $89.83\%$.
-The model emphasizes the difficulties in correctly classifying shirts, as seen by the precision, recall and f1-score.
+The model emphasizes the difficulties in correctly classifying shirts, as seen by the Precision, Recall and F1-score.
 This fits well with the feature overlap seen in \textbf{Figure 3}.
 On the other hand, the model performs well at classifying the other classes, especially trousers.
 
