@@ -10,9 +10,8 @@ The \class{NeuralNetworkClassifier()} and the \class{RandomForestClassifier()} b
 \newline
 
 To achieve a higher accuracy for this particular problem, a model that can detect more complex patterns in data is favourable.
-This is shown from the accuracy achieved from using the \class{RandomForestClassifier()}, which is more complex than a single decision tree.
-The random forest consists of $100$ individual decision trees, trained on different subsets of the data, which gave a $\sim5\%$ performance increase compared to the \class{DecisionTreeClassifier()}.
-\newline
+A neural network and random forest are both more complex than a decision tree and their accuracy score are both around $\sim5\%$ higher,
+while the neural network is slightly superior to the random forest.
 \newline
 Since our problem is image classification and neural networks excel at these tasks, it would be reasonable to assume that a neural network would outperform the other classifiers.
 As mentioned earlier our neural network is only slightly better than the random forest in terms of accuracy, which could indicate that the network is too simple for this task.
@@ -21,3 +20,23 @@ The use of filters, pooling and convolutions could retain the information in the
 It is well known that neural networks need a large training dataset for the model to perform well.
 As the training data in our dataset only consisted of one sixth of the original training dataset,
 our \class{NeuralNetworkClassifier()} might have outperformed the \class{RandomForestClassifier()} by a larger margin if more data was available.
+
+
+\begin{figure}[H]
+    \minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{figures_for_report/Neural Network Confusion Matrix}
+  \caption{Neural Network Confusion Matrix}\label{fig:nn_cm}
+\endminipage\hfill
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{figures_for_report/Random Forest Confusion Matrix}
+  \caption{Random Forest Confusion Matrix}\label{fig:rf_cm}
+\endminipage\hfill
+    \centering
+    \minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{figures_for_report/Decision Tree Confusion Matrix}
+  \caption{Decision Tree Confusion Matrix}\label{fig:dt_cm}
+\endminipage\hfill
+\end{figure}\label{fig:cfm}
+
+Figure 10, 11 and 12 illustrates the differences in performance across all classes for the three classifiers, and illustrates the points made earlier.
+It is clear from the right-most column in the three figures that there is often confusion between Shirts, T-shirts/Tops, and Pullovers.

@@ -68,10 +68,11 @@ This means \code{max_depth=None} and \code{min_samples_split=2}. \\
 
 A decision tree has elements of randomness involved in the training process.
 This is because if two splits yield the same purity gain, one of them is chosen at random.
-Therefore, the models might perform slightly different based on a single evaluation but very similar on average as seen in \textbf{Figure 5}.\\
+Therefore, the models might perform slightly different based on a single evaluation but very similar on average as seen in \textbf{Figure 5}.
+\newline
 
 The depth and number of leaves of the resulting trees were also compared and it was found that the decision trees in both implementations had the same depth and number of leaf nodes.
-\\
+\newline
 
 Finally, a comparison of a few of the actual splits (best feature and cutoff) was conducted to verify the accuracy of the implementations and ensure that everything was working as expected.
 It was found that the two implementations were in agreement on these splits.
@@ -84,6 +85,7 @@ Another way to solve this is using post-pruning where the tree is first grown fu
 Post-pruning was not implemented, instead we focused on identifying an optimal combination of \code{max_depth}, \code{min_samples_split}, and \code{criterion} (gini or entropy).
 This was done using 5-fold cross-validation with the Scikit-learn class \class{GridSearchCV()}.
 The following parameter grid was specified and passed to the \class{GridSearchCV()} instance.
+\newline
 
 \begin{center}
     \begin{minipage}{3in}
@@ -91,13 +93,13 @@ The following parameter grid was specified and passed to the \class{GridSearchCV
 \begin{itemize}
     \item \code{max_depth}: [None, 5, 7, 9, 11, 12]
     \item \code{min_samples_split}: [2, 4, 8, 10]
-    \item \code{criterion}: ['gini', 'entropy'] \\
+    \item \code{criterion}: ['gini', 'entropy'] \newline
 \end{itemize}
             \end{minipage}
 \end{center}
 
 
-This led to the following combination of hyperparameters:\\
+This led to the following combination of hyperparameters:\newline
 \begin{tcolorbox}[colback=white,
                   arc=0pt,
                 outer=0pt]
@@ -137,10 +139,12 @@ Shirt   &    0.61  &    0.60  &    0.60\\
 \end{subtable}
 \caption{Decision Tree Performance}
 \label{tab:dt_evaluation}
-\end{table} \\
+\end{table}
+\newline
 
 The results in \textbf{Table 2} are from an instance of our implementation of the \class{DecisionTreeClassifier()} with the hyperparameters specified in section \textbf{4.3}.
-To reproduce these exact results it should additionally be initialized with \code{random_state=42}. \\
+To reproduce these exact results it should additionally be initialized with \code{random_state=42}.
+\newline
 
 The \class{DecisionTreeClassifier()} achieved a test accuracy of $79.32\%$ and training accuracy of $89.83\%$.
 The model emphasizes the difficulties in correctly classifying shirts, as seen by the Precision, Recall and F1-score.

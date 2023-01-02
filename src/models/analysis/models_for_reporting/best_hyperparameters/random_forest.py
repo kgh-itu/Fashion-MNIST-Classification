@@ -13,8 +13,7 @@ def find_best_hyper_parameters():
 
     param_grid = {"max_depth": [None, 10, 15, 20, 21, 22, 23],
                   "min_samples_split": [2, 4, 8],
-                  'criterion': ["gini", "entropy"],
-                  "bootstrap": [True, False]}
+                  'criterion': ["gini", "entropy"]}
 
     model = RandomForestClassifier(random_state=42)
     grid = GridSearchCV(model, param_grid)
