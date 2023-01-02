@@ -3,11 +3,11 @@ import seaborn
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from src.models.analysis.models_for_reporting.best_models.decision_tree import best_decision_tree
-from src.models.analysis.models_for_reporting.best_models.neural_net import best_neural_network
-from src.models.analysis.models_for_reporting.best_models.random_forest import best_random_forest
-from src.get_train_test_split.fashion_mnist_data import FashionMnistData
-from src.class_clothing_map import map_cls_to_clothing
+# from src.analysis import best_decision_tree
+from src.analysis import best_neural_network
+from src.analysis import best_random_forest
+from src.get_data import FashionMnistData
+from src.colors.colors import map_cls_to_clothing
 
 
 def main(data, label):
@@ -17,8 +17,8 @@ def main(data, label):
                         columns=[i for i in map_cls_to_clothing().values()])
     fig, ax = plt.subplots(figsize=(14, 8), tight_layout=True)
     seaborn.heatmap(data, annot=True, cmap='Blues', fmt='g', ax=ax, cbar=False)
-    ax.set_title(label, fontdict=dict(weight='bold'), fontsize=font_size+8)
-    ax.tick_params(axis='both', labelsize=font_size+5)
+    ax.set_title(label, fontdict=dict(weight='bold'), fontsize=font_size + 8)
+    ax.tick_params(axis='both', labelsize=font_size + 5)
     ax.xaxis.set_label_coords(.5, -.1)
     ax.yaxis.set_label_coords(-.1, .5)
     plt.savefig(f"reports/figures_for_report/{label}")

@@ -1,0 +1,1 @@
+from src.get_data.fashion_mnist_data import FashionMnistData

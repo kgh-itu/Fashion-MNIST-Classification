@@ -1,16 +1,18 @@
 import numpy as np
 import random
 
-from src.models.decision_tree.gain import (calculate_gini,
-                                           get_node_gini,
-                                           calculate_entropy,
-                                           get_node_entropy)
+from src.models.decision_tree.helpers.gain import (calculate_gini,
+                                                   get_node_gini,
+                                                   calculate_entropy,
+                                                   get_node_entropy)
 
-from src.models.decision_tree.cutoff import get_possible_cutoffs
+from src.models.decision_tree.helpers.cutoff import get_possible_cutoffs
 
 
 class Node:
-    def __init__(self, X, y,
+    def __init__(self,
+                 X,
+                 y,
                  depth=None,
                  max_depth=1.e10,
                  min_samples_split=2,
@@ -45,7 +47,7 @@ class Node:
         self.best_gain = 0
         self._split_exists = False
 
-    def _split(self):
+    def split(self):
         self.best_feature, self.best_cutoff = self.get_best_split()
 
         if self.split_exists() and self.split_allowed():
@@ -65,7 +67,7 @@ class Node:
                         random_state=self.random_state)
 
             self.left = left
-            self.left._split()
+            self.left.split()
 
             right = Node(right_X, right_Y,
                          depth=self.depth + 1,
@@ -74,7 +76,7 @@ class Node:
                          random_state=self.random_state)
 
             self.right = right
-            self.right._split()
+            self.right.split()
 
     def get_best_split(self):
         features = list(range(self.num_features))

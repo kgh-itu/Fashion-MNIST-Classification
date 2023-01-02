@@ -4,14 +4,13 @@ from sklearn.utils import shuffle  # I assume we can use this from sk-learn
 from sklearn.model_selection import train_test_split
 
 import numpy as np
-from typing import Union
 import random
 
 from src.models.neural_network.layer import DenseLayer
 
-from src.models.neural_network.loss import (delta_cross_entropy,
-                                            get_accuracy,
-                                            calculate_loss)
+from src.models.neural_network.helpers.loss import (delta_cross_entropy,
+                                                    get_accuracy,
+                                                    calculate_loss)
 
 
 class NeuralNetworkClassifier:

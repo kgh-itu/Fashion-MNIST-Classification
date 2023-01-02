@@ -11,14 +11,12 @@ class DecisionTreeClassifier:
                  max_depth=1.e10,
                  min_samples_split=2,
                  criterion="gini",
-                 random_state=None,
-                 verbose=True):
+                 random_state=None):
 
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
         self.criterion = criterion
         self.random_state = random_state
-        self.verbose = verbose
 
         if self.random_state:
             random.seed(self.random_state)
@@ -42,13 +40,12 @@ class DecisionTreeClassifier:
                          criterion=self.criterion,
                          random_state=self.random_state)
 
-        self.root._split()
+        self.root.split()
         self.is_fitted = True
 
-        if self.verbose:
-            print(f"---training time [{time.time() - start_time} seconds]---")
-            print(f"DecisionTreeClassifier() has depth of {self.get_depth()}")
-            print(f"DecisionTreeClassifier() has {self.get_n_leaves()} leaf nodes")
+        print(f"---training time {time.time() - start_time} seconds---")
+        print(f"DecisionTreeClassifier() has depth of {self.get_depth()}")
+        print(f"DecisionTreeClassifier() has {self.get_n_leaves()} leaf nodes")
 
         return self
 

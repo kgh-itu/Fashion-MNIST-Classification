@@ -2,19 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-from src.get_train_test_split.fashion_mnist_data import FashionMnistData
+from src.get_data.fashion_mnist_data import FashionMnistData
 
 random.seed(69)
 
 
-def extract_sample_in_class(X, y, cls):
-    mask = np.where(y == cls)
-    X = X[mask]
-    x = random.choice(X).reshape(28, 28)
-    return x
-
-
-def sample_from_each_class():
+def plot_sample_from_each_class(savefig=False):
     data = FashionMnistData()
     X_train, y_train, X_test, y_test = data.get_train_test_split()
     samples = [extract_sample_in_class(X_train, y_train, i) for i in range(5)]
@@ -28,8 +21,20 @@ def sample_from_each_class():
         ax.imshow(samples[i], cmap=plt.cm.bone, interpolation='nearest')
         plt.title(title(i), fontdict={"fontsize": 15})
     fig_name = "samples_from_classes.png"
-    plt.savefig(f"reports/figures_for_report/{fig_name}", bbox_inches='tight', pad_inches=0.2)
+
+    if savefig:
+        plt.savefig(f"reports/figures_for_report/{fig_name}", bbox_inches='tight', pad_inches=0.2)
+
+    plt.show()
+
+
+def extract_sample_in_class(X, y, cls):
+    mask = np.where(y == cls)
+    X = X[mask]
+    x = random.choice(X).reshape(28, 28)
+    return x
 
 
 if __name__ == "__main__":
-    sample_from_each_class()
+    plot_sample_from_each_class()
+    plt.show()

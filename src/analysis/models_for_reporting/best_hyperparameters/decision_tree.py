@@ -2,13 +2,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score
 
-from src.get_train_test_split.fashion_mnist_data import FashionMnistData
-
-
-###### THE BEST HYPER PARAMETERS AFTER RUNNING THIS IS:
-# Best Criterion: gini
-# Best Max Depth: 9
-# Best min_samples_split: 4
+from src.get_data import FashionMnistData
 
 
 def find_best_hyper_parameters():

@@ -1,5 +1,5 @@
-from src.get_train_test_split.fashion_mnist_data import FashionMnistData
-from src.models.neural_network.neural_network_classifier import NeuralNetworkClassifier
+from src.get_data import FashionMnistData
+from src.models import NeuralNetworkClassifier
 from src.models.neural_network.layer import DenseLayer
 
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score

@@ -2,8 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn
 
-from src.get_train_test_split.fashion_mnist_data import FashionMnistData
-from src.colors import *
+from src.get_data.fashion_mnist_data import FashionMnistData
+from src.colors.colors import (t_shirt_color,
+                               trousers_color,
+                               pullover_color,
+                               dress_color,
+                               shirt_color)
 
 
 def plot_class_distribution():

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from src.get_train_test_split import FashionMnistData
+from src.get_data import FashionMnistData
 
 
 # This script answers the question: Does our data-set need cleaning?

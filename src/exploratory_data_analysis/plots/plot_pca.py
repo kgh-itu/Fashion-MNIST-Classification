@@ -3,13 +3,15 @@ import pandas as pd
 import seaborn
 
 from src.exploratory_data_analysis.pca.pca import get_n_pca
-from src.class_clothing_map import map_cls_to_clothing
-from src.colors import *
+from src.colors.colors import (t_shirt_color,
+                               trousers_color,
+                               pullover_color,
+                               dress_color,
+                               shirt_color, map_cls_to_clothing)
 
 
-
-def plot_pca():
-    X_pca, y_train = get_n_pca(normalize=True)
+def plot_pca(savefig=False):
+    X_pca, y_train = get_n_pca()
     pca1 = X_pca[:, 0]
     pca2 = X_pca[:, 1]
     pca3 = X_pca[:, 2]
@@ -57,10 +59,10 @@ def plot_pca():
         ax_.set_xticklabels([])
         ax_.set_yticklabels([])
 
+    if savefig:
+        plt.savefig(f"reports/figures_for_report/PCA")
+
     plt.show()
-
-    fig.savefig(f"reports/figures_for_report/PCA")
-
     return fig
 
 

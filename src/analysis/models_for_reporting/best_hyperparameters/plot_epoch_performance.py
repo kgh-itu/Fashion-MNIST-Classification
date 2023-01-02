@@ -1,12 +1,13 @@
 import matplotlib.pyplot as plt
 import seaborn
 
-from src.get_train_test_split.fashion_mnist_data import FashionMnistData
+from src.get_data.fashion_mnist_data import FashionMnistData
 from src.models.neural_network.neural_network_classifier import NeuralNetworkClassifier
 from src.models.neural_network.layer import DenseLayer
 
 
-def plot_performance_after_epochs(history):
+def plot_performance_after_epochs(history,
+                                  savefig=False):
     epochs = history["epochs"]
     fig, ax = plt.subplots(nrows=2, ncols=2,
                            figsize=(15, 5), tight_layout=True,
@@ -29,12 +30,18 @@ def plot_performance_after_epochs(history):
     ax[1, 0].tick_params(axis='both', which='both', labelsize=13)
     ax[1, 1].tick_params(axis='both', which='both', labelsize=13)
     fig.suptitle("Training and Validation Performance", fontsize=17)
+
+    if savefig:
+        plt.savefig(f"reports/figures_for_report/train_validation_nn_performance")
+
     plt.show()
-    fig.savefig(f"reports/figures_for_report/train_validation_nn_performance")
 
 
-def train_model(lr=0.01, epochs=10,
-                validation_size=0.1, batch_size=32):
+def train_model(lr=0.01,
+                epochs=10,
+                validation_size=0.1,
+                batch_size=32):
+
     data = FashionMnistData()
 
     X_train, y_train, _, _ = data.get_train_test_split()
@@ -52,6 +59,5 @@ def train_model(lr=0.01, epochs=10,
 
 
 if __name__ == "__main__":
-    # history = train_model(epochs=200)
-    plot_performance_after_epochs(history)
-# plt.show()
+    history_ = train_model(epochs=200)
+    plot_performance_after_epochs(history_)

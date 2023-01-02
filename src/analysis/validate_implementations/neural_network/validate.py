@@ -3,7 +3,7 @@ from tensorflow import keras
 import tensorflow as tf
 import seaborn
 
-from src.get_train_test_split.fashion_mnist_data import FashionMnistData
+from src.get_data.fashion_mnist_data import FashionMnistData
 from src.models.neural_network.neural_network_classifier import NeuralNetworkClassifier
 from src.models.neural_network.layer import DenseLayer
 
@@ -11,13 +11,15 @@ seed = 42
 tf.random.set_seed(seed)
 
 
-def plot(our_hist, tf_hist):
-    FONTSIZE = 16
-
-    fig, ax = plt.subplots(figsize=(13, 6), tight_layout=True,
-                           ncols=2, sharex="all")
+def plot(our_hist,
+         tf_hist,
+         savefig=False):
 
     epochs = our_hist["epochs"]
+
+    FONTSIZE = 16
+    fig, ax = plt.subplots(figsize=(13, 6), tight_layout=True,
+                           ncols=2, sharex="all")
 
     seaborn.set_style("darkgrid")
     seaborn.set_palette("pastel")
@@ -37,8 +39,12 @@ def plot(our_hist, tf_hist):
 
     ax[0].tick_params(axis='both', which='both', labelsize=FONTSIZE)
     ax[1].tick_params(axis='both', which='both', labelsize=FONTSIZE)
-    plt.savefig("reports/figures_for_report/tensorflow_vs_our")
+
+    if savefig:
+        plt.savefig("reports/figures_for_report/tensorflow_vs_our")
+
     plt.show()
+
 
 def train_models(epochs=100, random_state=42):
     lr = 0.01
@@ -73,7 +79,6 @@ def train_models(epochs=100, random_state=42):
     return our_history, tf_history.history
 
 
-
 if __name__ == "__main__":
-    #our_history, tf_history = train_models(epochs=200)
-    plot(our_history, tf_history)
+    our_hist, tf_hist = train_models(epochs=200)
+    plot(our_hist, tf_hist)

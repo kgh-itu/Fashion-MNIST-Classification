@@ -1,10 +1,8 @@
-from src.get_train_test_split.fashion_mnist_data import FashionMnistData
-
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score
 
-from src.get_train_test_split.fashion_mnist_data import FashionMnistData
+from src.get_data import FashionMnistData
 
 
 def find_best_hyper_parameters():

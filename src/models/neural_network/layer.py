@@ -1,8 +1,9 @@
 import numpy as np
 import random
 
-from src.models.neural_network.activations import (relu, relu_backward,
-                                                   softmax)
+from src.models.neural_network.helpers.activations import (relu,
+                                                           relu_backward,
+                                                           softmax)
 
 
 class DenseLayer:

@@ -1,4 +1,4 @@
-from src.get_train_test_split.fashion_mnist_data import FashionMnistData
+from src.get_data.fashion_mnist_data import FashionMnistData
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
