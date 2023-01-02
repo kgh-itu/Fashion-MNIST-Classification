@@ -97,7 +97,7 @@ The following parameter grid was specified and passed to the \class{GridSearchCV
 \end{center}
 
 
-This led to the following combination of hyperparameters\
+This led to the following combination of hyperparameters\\
 \begin{tcolorbox}[colback=white,
                   arc=0pt,
                 outer=0pt]
@@ -139,13 +139,12 @@ Shirt   &    0.61  &    0.60  &    0.60\\
 \label{tab:dt_evaluation}
 \end{table}\\
 
-The results reported in table 2 are results of our implementation of the \class{DecisionTreeClassifier()} with the hyperparameters specified in section \textbf{4.3}.
-To reproduce these exact results it should additionally be initialized with \code{random_state=42}, to eliminate the randomness.
+The results in table 2 are results of our implementation of the \class{DecisionTreeClassifier()} with the hyperparameters specified in section \textbf{4.3}.
+To reproduce these exact results it should additionally be initialized with \code{random_state=42}, to eliminate the randomness. \\
 
-
-
-\subsubsection{Discussing Results}
-
+The \class{DecisionTreeClassifier()} achieved a test accuracy of $79.32\%$ and training accuracy of $89.83\%$.
+Furthermore, our model emphasizes the difficulties in correctly classifying shirts, as seen by the precision, recall and f1-score.
+This fits well with the feature overlap seen in \textbf{Figure 3}.
 
 
 
