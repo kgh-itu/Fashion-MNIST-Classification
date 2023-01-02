@@ -1,14 +1,14 @@
 \section{Feed-Forward Neural Network}
 In this section, we will discuss how the \class{NeuralNetworkClassifier()} model is implemented and how the hyperparameters are chosen, as well as the results of using this model.\\
 
-A feedforward neural network is a type of artificial neural network that consists of an input layer, one or more hidden layers, and an output layer.
+A feed-forward neural network is a type of artificial neural network that consists of an input layer, one or more hidden layers, and an output layer.
 Each layer consists of a set of neurons, which are connected to the neurons in the next layer via weights.
 The input layer receives input data and passes it through the network to the output layer, where the output is produced.
 
 The hidden layers process the input data and transform it into a form that can be used by the output layer to produce the desired output.
 The weights of the connections between neurons are adjusted during the training process to minimize the difference between the predicted output and the actual output, a process known as backpropagation.
 
-Feedforward neural networks can be used for a wide range of tasks, including image and speech recognition, natural language processing, and predicting outcomes in complex systems.
+Feed-forward neural networks can be used for a wide range of tasks, including image and speech recognition, natural language processing, and predicting outcomes in complex systems.
 They are a popular choice for machine learning tasks due to their ability to learn and generalize from data.
 Typically neural networks require significantly more training-data than the traditional machine learning methods to produce desirable results.
 \\
@@ -134,7 +134,9 @@ Shirt   &    0.72  &    0.73  &    0.72\\
 \label{nn_evaluation}
 \end{table}\\
 
-\subsubsection{Discussing Results}
+The \class{NeuralNetworkClassifier()} achieved a test accuracy of $85.16\%$ and training accuracy of $94.29\%$.
+Again, our model emphasizes the difficulties in correctly classifying shirts, as seen by the precision, recall and f1-score in \textbf{Table 3}.
+The model performs well on correctly classifying Trousers and Dresses, with an achieved f1-score of 0.97 and 0.9.
 
 
 

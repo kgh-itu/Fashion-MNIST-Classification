@@ -73,7 +73,7 @@ The resulting tree depths and number of leaves were also compared and showed tha
 depth and with the same number of leaf nodes.
 \\
 
-Lastly a comparison of \textbf{some} of the actual splits (best feature and cutoff) were done to assert correctness and as a sanity check, and
+Lastly a comparison of \textit{some} of the actual splits (best feature and cutoff) were done to assert correctness and as a sanity check, and
 the two implementations also agreed on this.\\
 
 \subsection{Hyperparameters}
@@ -104,8 +104,8 @@ This led to the following combination of hyperparameters\\
 \centering \code{max_depth=9} \, \, \code{min_samples_split=4} \, \, \code{criterion=gini}\\
    \end{tcolorbox}
 
-These values were selected due to their ability to effectively prevent overfitting, due to achieving the highest validation accuracy score.
-
+The values were selected due to their ability to effectively prevent overfitting, by achieving the highest validation accuracy score.
+Due to the balanced dataset and the scope of this project it was decided not to prioritize increasing either precision or recall for the cost of accuracy score, as it would be for detecting i.e rare medical conditions.
 \subsection{Results}\label{subsec:results}
 \begin{table}[!ht]
 \begin{subtable}[c]{0.4\textwidth}
@@ -143,9 +143,9 @@ The results in \textbf{Table 2} are from an instance of our implementation of th
 To reproduce these exact results it should additionally be initialized with \code{random_state=42}, to eliminate the randomness. \\
 
 The \class{DecisionTreeClassifier()} achieved a test accuracy of $79.32\%$ and training accuracy of $89.83\%$.
-Furthermore, our model emphasizes the difficulties in correctly classifying shirts, as seen by the precision, recall and f1-score.
+The model emphasizes the difficulties in correctly classifying shirts, as seen by the precision, recall and f1-score.
 This fits well with the feature overlap seen in \textbf{Figure 3}.
-On the other hand, the model performs well at classifying the other classes especially trousers.
+On the other hand, the model performs well at classifying the other classes, especially trousers.
 
 
 
