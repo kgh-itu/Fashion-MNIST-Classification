@@ -39,8 +39,9 @@ Which gave the best combination as:\\
 
 
 These values were selected due to their ability to effectively prevent overfitting and improve the accuracy of the model, just like the decision tree parameters.
-Then an instance of the \class{RandomForestClassifier()} was trained, with the parameters, while keeping all others at their default values. This means that the \code{n_estimators=100}.
-Additionally \code{random_state=42} was again used, and will lead to the reproduction of the results reported in the next section.
+Then an instance of the \class{RandomForestClassifier()} was trained, while keeping all other parameters at their default values.
+This meant that the result random forest had 100 trees.
+Additionally \code{random_state=42} was used again, and can be used to reproduce the exact results reported in the next section.
 
 \subsection{Results}\label{subsec:results}
 \begin{table}[!ht]
@@ -75,6 +76,6 @@ Shirt   &    0.73  &    0.63  &    0.68\\
 \label{tab:random_forest_evaluation}
 \end{table}\\
 
-The \class{RandomForest()} achieved a test accuracy of $84.88\%$ and training accuracy of $99.97\%$.
-Again, the random forest classifier performs very well at correctly classifying Trouser and Dresses with a f1-score of 0.97 and 0.91 as seen in \textbf{Table 4}.
-The classifier struggles with the Shirt class which achieved a f1-score of 0.69.
+The \class{RandomForestClassifier()} achieved a test accuracy of $84.88\%$ and training accuracy of $99.97\%$.
+The random forest classifier also performs very well at correctly classifying Trouser and Dresses with a F1-score of 0.97 and 0.91 respectively as seen in \textbf{Table 4}.
+This classifier also struggles at classifying Shirts.
