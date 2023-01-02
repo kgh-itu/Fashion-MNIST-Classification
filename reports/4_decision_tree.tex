@@ -64,8 +64,9 @@ First, a comparison was made between the accuracy scores of 200 Scikit-learn mod
 \end{figure}
 
 Each decision tree used in \textbf{Figure 5} is initialized with the default parameters of both the Scikit-learn and our model.
-This means \code{max_depth=None} and \code{min_samples_split=2}.
-\\A decision tree has randomness involved in the training process.
+This means \code{max_depth=None} and \code{min_samples_split=2}. \\
+
+A decision tree has elements of randomness involved in the training process.
 This is because if two splits yield the same purity gain, one of them is chosen at random.
 Therefore, the models might perform slightly different based on a single evaluation but very similar on average as seen in \textbf{Figure 5}.\\
 

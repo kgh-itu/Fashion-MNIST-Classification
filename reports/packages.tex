@@ -1,16 +1,7 @@
+\usepackage[backend=biber,natbib,style=authoryear,citestyle=authoryear]{biblatex}
+\addbibresource{references.bib}
 \usepackage{graphicx} %images
 \usepackage{float} %floats
-\usepackage[
-backend=biber,
-style=numeric,
-sorting=none,
-url=false,
-maxbibnames=4,
-minbibnames=3
-]{biblatex}
-\DefineBibliographyStrings{english}{%
-  bibliography = {References},        %call bib 'References" instead of Bibliography
-}
 \usepackage{amsmath} %maths
 \usepackage{pdfpages} %include pdfs
 \usepackage{gensymb} %make math symbols
@@ -43,6 +34,7 @@ minbibnames=3
 \usepackage{varwidth}
 \usepackage{tasks}
 \usepackage{tcolorbox}
+
 \NewDocumentCommand{\class}{v}{%
 \texttt{\textcolor[HTML]{2978a2}{#1}}%
 }
@@ -66,3 +58,5 @@ minbibnames=3
 \linespread{1.25} %change line spacing
 
 
+
+\usepackage{hyperref}

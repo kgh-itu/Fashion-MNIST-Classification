@@ -1,20 +1,23 @@
 \section{Discussion of Results}
 Although all three models would be a decent choice at correctly classifying the images with a reasonable accuracy, it is clear that the feed-forward neural network and random forest classifiers are more suitable for this task.
-The same pattern persists for all our classifiers, which is that they have an easier time correctly classifying Trousers and Dresses, and they all show difficulty correctly classifying Shirts.
+For all of our classifiers, we consistently observe that they are better at accurately identifying Trousers and Dresses, while they struggle more with correctly classifying Shirts.
+\newline
 
-The worst performing classifier is the \class{DecisionTreeClassifier()}, as it is too simple for this problem, achieving a test accuracy of \textit{only} $\sim80\%$.
-\\
-The \class{NeuralNetworkClassifier()} and the \class{RandomForestClassifier()} both perform better than the \class{DecisionTreeClassifier()}, with a similar test accuracy of $\sim85\%$ overall.\\
-It is worth mentioning that the neural network outperforms the random forest classifier by a few tenths.
+The worst performing classifier based on accuracy score is the \class{DecisionTreeClassifier()}, as it might be too simple for this problem, only achieving a test accuracy of \textit{only} $\sim79\%$
+\newline
 
-To achieve higher accuracy for this particular problem, a model that can detect more complex patterns in data is favourable.
-This is shown from the accuracy achieved from using the \class{RandomForestClassifier()}, which is a lot more complex than a single decision tree,
-since it consists of (in our case) $100$ individual decision trees, trained on different subsets of the data, which lead to $\sim5\%$ performance than the decision tree.
+The \class{NeuralNetworkClassifier()} and the \class{RandomForestClassifier()} both perform better with a similar test accuracy of $\sim85\%$, with the neural network slightly outperforming.
+\newline
 
-Since our problem is image classification and neural networks excel at these tasks, it would be reasonable to assume that the \class{NeuralNetworkClassifier()} would outperform the other classifiers.
-As mentioned earlier our neural network is a few tenths better than the random forest in terms of accuracy, which could indicate that the network is too simple for this task.
+To achieve a higher accuracy for this particular problem, a model that can detect more complex patterns in data is favourable.
+This is shown from the accuracy achieved from using the \class{RandomForestClassifier()}, which is more complex than a single decision tree.
+The random forest consists of $100$ individual decision trees, trained on different subsets of the data, which gave a $\sim5\%$ performance increase compared to the \class{DecisionTreeClassifier()}.
+\newline
+\newline
+Since our problem is image classification and neural networks excel at these tasks, it would be reasonable to assume that a neural network would outperform the other classifiers.
+As mentioned earlier our neural network is only slightly better than the random forest in terms of accuracy, which could indicate that the network is too simple for this task.
 To increase the model complexity, it would be optimal to use a different network architecture, with i.e more layers.
 The use of filters, pooling and convolutions could retain the information in the images which is lost in our network.
 It is well known that neural networks need a large training dataset for the model to perform well.
-As the training data in our dataset is one sixth the size of the original Fashion-MNIST dataset, this could be a limiting factor to the accuracy of our model.
-
+As the training data in our dataset only consisted of one sixth of the original training dataset,
+our \class{NeuralNetworkClassifier()} might have outperformed the \class{RandomForestClassifier()} by a larger margin if more data was available.
