@@ -139,12 +139,13 @@ Shirt   &    0.61  &    0.60  &    0.60\\
 \label{tab:dt_evaluation}
 \end{table}\\
 
-The results in table 2 are results of our implementation of the \class{DecisionTreeClassifier()} with the hyperparameters specified in section \textbf{4.3}.
+The results in \textbf{Table 2} are from an instance of our implementation of the \class{DecisionTreeClassifier()} with the hyperparameters specified in section \textbf{4.3}.
 To reproduce these exact results it should additionally be initialized with \code{random_state=42}, to eliminate the randomness. \\
 
 The \class{DecisionTreeClassifier()} achieved a test accuracy of $79.32\%$ and training accuracy of $89.83\%$.
 Furthermore, our model emphasizes the difficulties in correctly classifying shirts, as seen by the precision, recall and f1-score.
 This fits well with the feature overlap seen in \textbf{Figure 3}.
+On the other hand, the model performs well at classifying the other classes especially trousers.
 
 
 
