@@ -1,8 +1,4 @@
 from __future__ import annotations
-
-from sklearn.utils import shuffle  # I assume we can use this from sk-learn
-from sklearn.model_selection import train_test_split
-
 import numpy as np
 import random
 
@@ -11,6 +7,10 @@ from src.models.neural_network.layer import DenseLayer
 from src.models.neural_network.helpers.loss import (delta_cross_entropy,
                                                     get_accuracy,
                                                     calculate_loss)
+
+
+from src.models.neural_network.helpers.shuffle import shuffle
+from src.models.neural_network.helpers.train_test_split import train_test_split
 
 
 class NeuralNetworkClassifier:
@@ -49,12 +49,12 @@ class NeuralNetworkClassifier:
         num_batches = int(np.ceil(X.shape[0] / batch_size))
 
         if validation_size:
-            X, x_validation, y, y_validation = train_test_split(X, y,
-                                                                test_size=validation_size,
+            X, y, x_validation, y_validation = train_test_split(X, y,
+                                                                validation_size=validation_size,
                                                                 random_state=self.random_state)
 
         for i in range(1, self.epochs + 1):
-            X, y = shuffle(X, y)
+            X, y = shuffle(X, y, random_state=self.random_state)
             x_batches = np.array_split(X, num_batches)
             y_batches = np.array_split(y, num_batches)
             for x_batch, y_batch in zip(x_batches, y_batches):  # mini batch gradient descent
