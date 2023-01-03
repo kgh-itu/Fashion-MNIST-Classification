@@ -90,7 +90,7 @@ Neural networks are known for their ability to learn and generalize from data.
 However, they can sometimes suffer from overfitting if the number of epochs or learning rate is set too high.
 When selecting a good set of hyperparameters, we focused solely on the number of epochs and kept all other parameters fixed, including the hidden layers and other parameters mentioned in section 5\textbf{5.2}, and the following parameters as well \code{learning_rate=0.01}, \code{batch_size=32}, \code{random_state=42}.
 To reduce overfitting, it was optimal to choose a number of epochs that resulted in a high validation accuracy and low validation loss
-\textbf{Figure 8} shows the models performance during training and was used to choose $70$ as the number of epochs.
+\textbf{Figure 8} shows the models performance during training and was used to choose $60$ as the number of epochs.
 These parameters were then used to train an instance of the \class{NeuralNetworkClassifier()} and the results are reported in the following section.
 \begin{figure}[H]
     \centering
@@ -108,8 +108,8 @@ These parameters were then used to train an instance of the \class{NeuralNetwork
  \toprule
  Evaluation Metric & Accuracy Score  \\
  \midrule
- Training Accuracy & 94.43\% \\
- Test Accuracy & 85.20\% \\
+ Training Accuracy & 94.04\% \\
+ Test Accuracy & 85.78\% \\
  \bottomrule
 \end{tabular}
 \captionsetup{justification=centering,margin=1cm}
@@ -120,11 +120,11 @@ These parameters were then used to train an instance of the \class{NeuralNetwork
 \begin{tabular}{c | c c r}
 Class & Precision & Recall & F1-Score\\
 \midrule
-T-shirt/Top   &    0.81  &    0.82  &    0.82 \\
-Trousers   &    0.98  &    0.97  &    0.98 \\
-Pullover   &    0.86  &    0.84  &    0.85\\
-Dress   &    0.90  &    0.90  &    0.90\\
-Shirt   &    0.72  &    0.73  &    0.73\\
+T-shirt/Top   &    0.80  &    0.85  &    0.82 \\
+Trousers   &    0.98  &    0.97  &    0.97 \\
+Pullover   &    0.86  &    0.89  &    0.87\\
+Dress   &    0.92  &    0.88  &    0.90\\
+Shirt   &    0.75  &    0.70  &    0.73\\
 \end{tabular}
 \captionsetup{justification=centering,margin=1cm}
 \end{subtable}
@@ -132,7 +132,7 @@ Shirt   &    0.72  &    0.73  &    0.73\\
 \label{nn_evaluation}
 \end{table}\\
 
-The \class{NeuralNetworkClassifier()} achieved a test accuracy of $85.16\%$ and training accuracy of $94.29\%$.
+The \class{NeuralNetworkClassifier()} achieved a test accuracy of $85.78\%$ and training accuracy of $94.04\%$.
 Again, our model emphasizes the difficulties in correctly classifying shirts, as seen by the Precision, Recall and F1-score in \textbf{Table 3}.
 The model performs well on correctly classifying Trousers and Dresses, with an achieved F1-score of 0.97 and 0.9.
 

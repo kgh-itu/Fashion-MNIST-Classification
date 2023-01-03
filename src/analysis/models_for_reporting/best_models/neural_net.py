@@ -13,9 +13,9 @@ def best_neural_network():
                                                 DenseLayer(64, "relu"),
                                                 DenseLayer(5, "softmax")],
                                         learning_rate=0.01,
-                                        epochs=70,
+                                        epochs=60,
                                         random_state=42)
-    our_model.fit(X_train, y_train, batch_size=32, validation_size=0.2)
+    our_model.fit(X_train, y_train, batch_size=32)
 
     return our_model
 

@@ -1,11 +1,11 @@
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, accuracy_score
 import seaborn
 import matplotlib.pyplot as plt
 import pandas as pd
 
-# from src.analysis import best_decision_tree
-from src.analysis import best_neural_network
-from src.analysis import best_random_forest
+from src.analysis.models_for_reporting.best_models.decision_tree import best_decision_tree
+from src.analysis.models_for_reporting.best_models.neural_net import best_neural_network
+from src.analysis.models_for_reporting.best_models.random_forest import best_random_forest
 from src.get_data import FashionMnistData
 from src.colors.colors import map_cls_to_clothing
 
@@ -29,6 +29,9 @@ def get_neural_network_confusion_matrix():
     x_train, y_train, x_test, y_test = data.get_train_test_split()
     model = best_neural_network()
     y_preds = model.predict(x_test)
+
+    print(accuracy_score(y_test, y_preds))
+
     return confusion_matrix(y_true=y_test, y_pred=y_preds)
 
 
