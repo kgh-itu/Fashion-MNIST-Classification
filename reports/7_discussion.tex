@@ -6,7 +6,7 @@ For all of our classifiers, we consistently observe that they are better at accu
 The worst performing classifier based on accuracy score is the \class{DecisionTreeClassifier()}, as it might be too simple for this problem, achieving a test accuracy of \textit{only} $\sim79\%$
 \newline
 
-The \class{NeuralNetworkClassifier()} and the \class{RandomForestClassifier()} both perform better with a similar test accuracy of $\sim85\%$, with the neural network slightly outperforming.
+The \class{NeuralNetworkClassifier()} and the \class{RandomForestClassifier()} both perform better with a similar test accuracy of $\sim85\%$, with the neural network slightly outperforming the random forest.
 \newline
 
 To achieve a higher accuracy for this particular problem, a model that can detect more complex patterns in data is favourable.
@@ -38,5 +38,5 @@ the neural network might have outperformed the random forest by a larger margin 
 \endminipage\hfill
 \end{figure}\label{fig:cfm}
 
-Figure 10, 11 and 12 illustrates the differences in performance across all classes for the three classifiers, and illustrates the points made earlier.
-It is clear from the right-most column in the three figures that there is often confusion between Shirts, T-shirts/Tops, and Pullovers.
+\textbf{Figure 10}, \textbf{11} and \textbf{12}, illustrates the differences in performance across all clothing types for the three classifiers, and illustrates the points made earlier.
+The right-most column in the three figures indicates that there is often confusion between the categories Shirts, T-shirts/Tops, and Pullovers.

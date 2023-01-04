@@ -3,7 +3,7 @@ In this section, we will discuss how the \class{NeuralNetworkClassifier()} is im
 
 A feed-forward neural network is a type of artificial neural network that consists of an input layer, one or more hidden layers, and an output layer.
 Each layer consists of a set of neurons, which are connected to the neurons in the next layer through weights.
-The input layer receives input data and passes it through the network to the output layer, where the output is produced. \\
+The input layer receives input data and passes it through the network to the output layer, where the output is produced. \\ % hands on machine learning
 
 The hidden layers process the input data and transform it into a form that can be used by the output layer to produce a prediction.
 The weights of the connections between neurons are adjusted during the training process to minimize the difference between the predicted output and the actual output, a process known as backpropagation. \\
@@ -88,8 +88,8 @@ Based on the results displayed in \textbf{Figure 7}, our model can be considered
 \subsection{Hyperparameters}
 Neural networks are known for their ability to learn and generalize from data.
 However, they can sometimes suffer from overfitting if the number of epochs or learning rate is set too high.
-When selecting a good set of hyperparameters, we focused solely on the number of epochs and kept all other parameters fixed, including the hidden layers and other parameters mentioned in section 5\textbf{5.2}, and the following parameters as well \code{learning_rate=0.01}, \code{batch_size=32}, \code{random_state=42}.
-To reduce overfitting, it was optimal to choose a number of epochs that resulted in a high validation accuracy and low validation loss
+When selecting a good set of hyperparameters, we focused solely on the number of epochs and kept all other parameters fixed, including the hidden layers and other parameters mentioned in section \textbf{5.2}, and the following parameters as well \code{learning_rate=0.01}, \code{batch_size=32}, \code{random_state=42}.
+To reduce overfitting, it was optimal to choose a number of epochs that resulted in a high validation accuracy and low validation loss.
 \textbf{Figure 8} shows the models performance during training and was used to choose $60$ as the number of epochs.
 These parameters were then used to train an instance of the \class{NeuralNetworkClassifier()} and the results are reported in the following section.
 \begin{figure}[H]

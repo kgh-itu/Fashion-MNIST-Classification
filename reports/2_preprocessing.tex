@@ -37,7 +37,7 @@ and checking that the pixel values were no greater than 255 and no smaller than 
 \subsection{Preprocessing}\label{subsec:preprocessing}
 The pixel values were in the range $[0, 255]$.
 This range was normalized to $[0, 1]$ by dividing each pixel by 255.
-One reason for scaling the data is to reduce the difficulty of training a neural network, as these models can struggle to learn from large values, due to large gradient values.
+One reason for scaling the data is to reduce the difficulty of training a neural network, as these models can struggle to learn from large values, due to large gradient values. %\cite{handsonML}%
 Additionally, scaling the data can also slightly improve training time, as the models are able to more efficiently process smaller numbers.
 \subsection{Class Distribution}\label{subsec:class-distribution}
 The success of a machine learning model in predicting classes largely depends on the distribution of those classes within the training and test datasets.
