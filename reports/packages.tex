@@ -1,5 +1,15 @@
-\usepackage[backend=biber,natbib,style=authoryear,citestyle=authoryear]{biblatex}
+\usepackage[
+backend=biber,
+style=numeric,
+sorting=none,
+url=false,
+maxbibnames=4,
+minbibnames=3
+]{biblatex}
 \addbibresource{references.bib}
+\DefineBibliographyStrings{english}{%
+  bibliography = {References},        %call bib 'References" instead of Bibliography
+}
 \usepackage{graphicx} %images
 \usepackage{float} %floats
 \usepackage{amsmath} %maths
