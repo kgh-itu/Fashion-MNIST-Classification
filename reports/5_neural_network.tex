@@ -3,14 +3,14 @@ In this section, we will discuss how the \class{NeuralNetworkClassifier()} is im
 
 A feed-forward neural network is a type of artificial neural network that consists of an input layer, one or more hidden layers, and an output layer.
 Each layer consists of a set of neurons, which are connected to the neurons in the next layer through weights.
-The input layer receives input data and passes it through the network to the output layer, where the output is produced. \\ % hands on machine learning
+The input layer receives input data and passes it through the network to the output layer, where the output is produced. \\
 
 The hidden layers process the input data and transform it into a form that can be used by the output layer to produce a prediction.
-The weights of the connections between neurons are adjusted during the training process to minimize the difference between the predicted output and the actual output, a process known as backpropagation. \\
+The weights of the connections between neurons are adjusted during the training process to minimize the difference between the predicted output and the actual output, a process known as backpropagation. \cite{handsonML} \\
 
 Feed-forward neural networks can be used for a wide range of tasks, including image and speech recognition, natural language processing, and predicting outcomes in complex systems.
 They are a popular choice for machine learning tasks due to their ability to learn and generalize from data.
-Typically neural networks require significantly more training-data than the traditional machine learning methods to produce desirable results. \\
+Typically neural networks require significantly more training-data than the traditional machine learning methods to produce desirable results. \cite{deeplearningbook-et-al-2016} \\
 
 \begin{figure}[H]
     \centering
@@ -42,7 +42,7 @@ It calculates the dot product of the inputs and weights, adds the bias, and appl
 It returns the pre-activated output of the layer, and the activation of the layer.
 The \code{backward(dA_curr, W_curr, Z_curr, A_prev)} method performs the backward pass through the layer, given the gradient of the cost with respect to the current layer's activations \code{(dA_curr)}, the current layer's weights \code{(W_curr)}, the current layer's pre-activation values \code{(Z_curr)}, and the previous layer's activations (\code{A_prev}).
 It calculates the gradients of the cost with respect to the weights (\code{dW}), biases (\code{db)}, and previous layer's activations (\code{dA}) using the chain rule.
-The return values of both the \code{forward()} and the \code{backward()} method are needed for backpropagation which happens in the \class{NeuralNetworkClassifier()}.
+The return values of both the \code{forward()} and the \code{backward()} method are needed for backpropagation which happens in the \class{NeuralNetworkClassifier()}. \cite{towardsdatascience}
 
 
 \subsubsection{NeuralNetworkClassifier()}
@@ -72,6 +72,7 @@ This process is performed as many times as specified with by the \code{epoch} pa
 For the scope of this project the correctness of our implementation was done primarily visually.
 The training accuracy and training loss was compared to a similar model from the TensorFlow library.
 The models used have two ReLU activated hidden layers with 128 and 64 neurons respectively, a Softmax activated output layer with 5 neurons (one for each clothing type) and a learning rate of $0.01$.
+The number and sizes of hidden layers was selected to provide the model with sufficient complexity to perform the task, while minimizing the time required for training.
 For reproduction of these exact graphs \code{random_state=42}, and \code{tf.random.set_seed(42)} should be used. \\
 
 \begin{figure}[H]
